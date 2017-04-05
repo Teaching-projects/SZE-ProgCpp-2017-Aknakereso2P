@@ -31,3 +31,4 @@
 # IDE specific files
 *.cbp
 *.layout
+*.depend
