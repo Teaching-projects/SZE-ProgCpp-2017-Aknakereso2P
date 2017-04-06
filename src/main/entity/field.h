@@ -1,10 +1,6 @@
-#ifndef FIELD_H_INCLUDED
-#define FIELD_H_INCLUDED
-
-
-
-#endif // FIELD_H_INCLUDED
-
+/**
+ * The Class Field.
+ */
 class Field
 {
     private:
@@ -16,6 +12,19 @@ class Field
         bool	flagged;
 
     public:
+        /**
+         * Instantiates a new field with given coordinates and default properties.
+         */
+        Field()
+        {
+            id = -1;
+            coordinateX = -1;
+            coordinateY = -1;
+            mineSignal = 0;
+            visibled = false;
+            flagged = false;
+        }
+
         /**
          * Instantiates a new field with given coordinates and default properties.
          *
