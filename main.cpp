@@ -1,18 +1,27 @@
+#include <stdio.h>
+#include <conio.h>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
-#include "headers/entity/field.h"
 
-using namespace std;
+#include "src/main/constants.h"
+#include "src/main/enumerations.h"
 
+#include "src/main/entity/field.h"
+#include "src/main/entity/minefield.h"
+#include "src/main/entity/player.h"
+
+#include "src/main/util/logger.h"
+#include "src/main/util/game.h"
+
+/**
+ * The 'Mineszwiper' game entry point.
+ *
+ * @author dderdak
+ */
 int main()
 {
-    Field f (1, 2, 3);
-
-    cout << "field.id: " << f.getId() << endl;
-    cout << "field.x: " << f.getCoordinateX() << endl;
-    cout << "field.y: " << f.getCoordinateY() << endl;
-    cout << "field.mineSignal: " << f.getMineSignal() << endl;
-    f.countMineSignal();
-    cout << "field.mineSignal: " << f.getMineSignal() << endl;
-
+    showStartScreen();
+    exitScreen();
     return 0;
 }
