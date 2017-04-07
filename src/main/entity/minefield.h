@@ -32,6 +32,7 @@ class Minefield
         Minefield()
         {
             create();
+            undermine();
         }
 
         /**
@@ -49,6 +50,7 @@ class Minefield
                     mtx[r][c] = Field( id, x, y );
                 }
             }
+            printlnDebug("Minefield created...");
         }
 
         /**
@@ -56,20 +58,26 @@ class Minefield
          */
         void undermine()
         {
+            printDebug("Minefield undermining in progress...");
             int indexOfGeneratedMines[CONST_MINEFIELD_NUM_OF_MINES];
             int numOfGeneratedMines = 0;
-            srand(time(0));
+            srand((unsigned int) time (NULL));
             while( numOfGeneratedMines < CONST_MINEFIELD_NUM_OF_MINES )
             {
-                int x = (int)( 1 + ( rand() % CONST_MINEFIELD_ROWS ) );
-                int y = (int)( 1 + ( rand() % CONST_MINEFIELD_COLUMNS ) );
+                int x = (rand()%(CONST_MINEFIELD_ROWS - 1)) + 1;
+                int y = (rand()%(CONST_MINEFIELD_COLUMNS - 1)) + 1;
                 int indexOfGeneratedMine = getFieldIdFromCoordinates( x, y, CONST_MINEFIELD_ROWS, CONST_MINEFIELD_COLUMNS );
                 if( !contains( indexOfGeneratedMine, indexOfGeneratedMines ) )
                 {
                     mtx[x][y].setMineSignal( -1 );
+                    countMines(x,y);
                     indexOfGeneratedMines[numOfGeneratedMines++] = indexOfGeneratedMine;
+                    print(" .");
+                    print(convertNumberToString(mtx[x][y].getMineSignal()));
                 }
             }
+            println();
+            printlnDebug("Minefield undermined...");
         }
 
         /**
@@ -101,6 +109,83 @@ class Minefield
         }
 
         /**
+         * Shows the minefield.
+         *
+         * @param minefield the minefieldMatrix
+         */
+        void show()
+        {
+            println();
+            print(" ");
+            print(CONST_TAB);
+            print(" ");
+            print(CONST_TAB);
+            print("|");
+            for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+            std::cout << CONST_TAB << CONST_MINEFIELD_HEADER[i];
+            print(CONST_TAB);
+            println("|");
+            print(" ");
+            print("-----");
+            print("----");
+            print("-");
+            for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+            print("-----");
+            print("----");
+            print("-");
+            print("----");
+            println("-----");
+            for(int i=0; i<CONST_MINEFIELD_ROWS; i++)
+            {
+                print(CONST_TAB);
+                if((i+1)<10)
+                print(" ");
+                print(convertNumberToString(i+1));
+                print(CONST_TAB);
+                print("|");
+                for(int j=0; j<CONST_MINEFIELD_COLUMNS; j++)
+                {
+                    print(CONST_TAB);
+                    if( mtx[i][j].isVisibled() )
+                    {
+                        if( mtx[i][j].getMineSignal()==0 )
+                        print(" ");
+                        else if( mtx[i][j].getMineSignal()==-1 )
+                        print("*");
+                        else if( mtx[i][j].getMineSignal()>0 )
+                        print(convertNumberToString(mtx[i][j].getMineSignal()));
+                    }
+                    else
+                    print("#");
+                }
+                print(CONST_TAB);
+                print("|");
+                print(CONST_TAB);
+                println(convertNumberToString(i+1));
+            }
+            print(" ");
+            print("-----");
+            print("----");
+            print("-");
+            for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+            print("-----");
+            print("----");
+            print("-");
+            print("----");
+            println("-----");
+            print(" ");
+            print(CONST_TAB);
+            print(" ");
+            print(CONST_TAB);
+            print("|");
+            for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+            std::cout << CONST_TAB << CONST_MINEFIELD_HEADER[i];
+            print(CONST_TAB);
+            println("|");
+            println();
+        }
+
+        /**
          * Update Minefield after "clicking" on a field with refreshing the visibled fields.
          *
          * @param x the x coordinate
@@ -108,14 +193,13 @@ class Minefield
          */
         void updateMinefield( int x, int y )
         {
-            Field actField = getField( x, y );
-            if( !actField.isFlagged() )
+            try
             {
-                if( !actField.isVisibled() )
+                if( !mtx[x][y].isVisibled() )
                 {
                     // if the current field is not visible set it
-                    actField.setVisibled( true );
-                    if( actField.isEmpty() )
+                    mtx[x][y].setVisibled( true );
+                    if( mtx[x][y].isEmpty() )
                     {
                         // if an empty field... go through the other empty fields
                         for ( int fieldPlace = FP_OVER; fieldPlace != FP_RIGHT_OVER; fieldPlace++ )
@@ -129,6 +213,10 @@ class Minefield
                         }
                     }
                 }
+            }
+            catch(...)
+            {
+                // index out of bound exception
             }
         }
 
