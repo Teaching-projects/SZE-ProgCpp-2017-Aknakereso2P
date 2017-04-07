@@ -57,7 +57,6 @@ void pauseScreen()
  */
 void exitScreen()
 {
-    //clearScreen();
     println("Program exiting...");
     println("Please press any key to exit");
     pauseScreen();
@@ -157,4 +156,69 @@ void printlnDebug(std::string m)
     print(CONST_LOGGER_LOG_LEVEL_DEBUG);
     //print(getNow() + " ");
     println(m);
+}
+
+/**
+ * Converts given number to string.
+ *
+ * @param number the number to convert
+ * @return the converted number string
+ */
+std::string convertNumberToString(int number)
+{
+    return static_cast<std::ostringstream*>( &(std::ostringstream() << number) )->str();
+}
+
+/**
+ * Prints the minefield.
+ *
+ * @param minefield the minefieldMatrix
+ */
+void show( Minefield minefield )
+{
+    print(CONST_TAB);
+    for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+    std::cout << CONST_TAB << CONST_MINEFIELD_HEADER[i];
+    println();
+    print(CONST_TAB);
+    for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+    print("_____");
+    print("____");
+    for(int i=0; i<CONST_MINEFIELD_ROWS; i++)
+    {
+        print(CONST_TAB);
+        print("|  ");
+        print(convertNumberToString(i+1));
+        for(int j=0; j<CONST_MINEFIELD_COLUMNS; j++)
+        {
+            print("#");
+            /*Field actField = minefield.getField( i, j );
+            if( actField.isVisibled() )
+            {
+                if( !actField.isFlagged() )
+                {
+                    if( actField.getMineSignal()==0 )
+                    print("     ");
+                    else if( actField.getMineSignal()==-1 )
+                    print("    *");
+                    else if( actField.getMineSignal()>0 )
+                    print("    " + actField.getMineSignal());
+                }
+                else
+                print("     ");
+            }
+            else
+            print("    #");*/
+        }
+        print(convertNumberToString(i+1));
+        print("  |");
+    }
+    /*print("    ");
+    for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+    print("    ----");
+    println("---");
+    print("    ");
+    for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+    print( "    " + (i+1));
+    println();*/
 }
