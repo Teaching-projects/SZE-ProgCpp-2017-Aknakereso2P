@@ -151,16 +151,6 @@ class Field
         }
 
         /**
-         * Checks if this field is flagged or not.
-         *
-         * @return true, if this field is flagged
-         */
-        bool isFlagged()
-        {
-            return flagged;
-        }
-
-        /**
          * Sets this field to flagged or not.
          *
          * @param f the new flagged
