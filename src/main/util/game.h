@@ -1,11 +1,41 @@
+bool endgame = false;
+
+/**
+ * Sleep thread until given milliseconds.
+ *
+ * @param ms the milliseconds
+ */
+void sleep(unsigned ms)
+{
+    Sleep(ms);
+}
+
+/**
+ * Sleep thread until given seconds.
+ *
+ * @param s the seconds
+ */
+void sleepSecs(int s)
+{
+    sleep(s * 1000);
+}
+
 /**
  * Start.
  */
 void startNewGame()
 {
     clearScreen();
-    printlnInfo("Game starting...");
-    pauseScreen();
+    printInfo("Game starting");
+    for(int i=0; i<8; i++)
+    {
+        print(".");
+        sleep(250);
+    }
+    clearScreen();
+
+    Minefield mineField = Minefield();
+    show(mineField);
 }
 
 /**
@@ -15,7 +45,6 @@ void endGame()
 {
     clearScreen();
     printlnInfo("Game ending...");
-    pauseScreen();
 }
 
 /**
@@ -25,7 +54,7 @@ void exitGame()
 {
     clearScreen();
     printlnInfo("Game exiting...");
-    pauseScreen();
+    endgame = true;
 }
 
 /**
@@ -83,6 +112,7 @@ void showMenu()
  */
 void showStartScreen()
 {
+    clearScreen();
     showTitle();
     println();
     println();
