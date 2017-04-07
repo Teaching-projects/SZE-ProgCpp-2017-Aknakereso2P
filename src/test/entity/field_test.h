@@ -13,6 +13,4 @@ void testField()
     std::cout << "field.mineSignal: " << f.getMineSignal() << std::endl;
     f.countMineSignal();
     std::cout << "field.mineSignal: " << f.getMineSignal() << std::endl;
-
-    processEnd();
 }
