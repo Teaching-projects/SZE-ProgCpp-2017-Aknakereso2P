@@ -24,6 +24,20 @@ class Player
         }
 
         /**
+         * Instantiates a new player with given nick name.
+         *
+         * @param nn the nick name
+         */
+        Player(std::string nn)
+        {
+            firstName = CONST_PLAYER_ANONYMOUS_FIRSTNAME;
+            lastName = CONST_PLAYER_ANONYMOUS_LASTNAME;
+            nickName = nn;
+            minePoints = 0;
+            hasTurn = false;
+        }
+
+        /**
          * Increase the mine point of the player by one.
          */
         void countMinePoints()
