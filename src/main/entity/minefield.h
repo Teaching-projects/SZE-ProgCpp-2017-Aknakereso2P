@@ -32,7 +32,6 @@ class Minefield
         Minefield()
         {
             create();
-            undermine();
         }
 
         /**
@@ -67,16 +66,8 @@ class Minefield
                 int indexOfGeneratedMine = getFieldIdFromCoordinates( x, y, CONST_MINEFIELD_ROWS, CONST_MINEFIELD_COLUMNS );
                 if( !contains( indexOfGeneratedMine, indexOfGeneratedMines ) )
                 {
-                    try
-                    {
-                        mtx[x][y].setMineSignal( -1 );
-                        searchMines( x, y );
-                        indexOfGeneratedMines[numOfGeneratedMines++] = indexOfGeneratedMine;
-                    }
-                    catch(...)
-                    {
-                        // index out of bound in the minefield matrix
-                    }
+                    mtx[x][y].setMineSignal( -1 );
+                    indexOfGeneratedMines[numOfGeneratedMines++] = indexOfGeneratedMine;
                 }
             }
         }
@@ -87,15 +78,14 @@ class Minefield
          * @param x the x coordinate
          * @param y the y coordinate
          */
-        void searchMines( int x, int y )
+        void countMines( int x, int y )
         {
             for ( int fieldPlace = FP_OVER; fieldPlace != FP_RIGHT_OVER; fieldPlace++ )
             {
                 FieldPlace place = static_cast<FieldPlace>(fieldPlace);
                 int newPlace[2];
-                int* _places = getNextFieldCoords( place, x, y );
-                newPlace[0] = _places[0];
-                newPlace[1] = _places[1];
+                newPlace[0] = getNextFieldXCoords( place, x, y );
+                newPlace[1] = getNextFieldYCoords( place, x, y );
                 try
                 {
                     if( mtx[newPlace[0]][newPlace[1]].getMineSignal() >= 0 )
@@ -106,6 +96,38 @@ class Minefield
                 catch( ... )
                 {
                     // index out of bound in the minefield matrix
+                }
+            }
+        }
+
+        /**
+         * Update Minefield after "clicking" on a field with refreshing the visibled fields.
+         *
+         * @param x the x coordinate
+         * @param y the y coordinate
+         */
+        void updateMinefield( int x, int y )
+        {
+            Field actField = getField( x, y );
+            if( !actField.isFlagged() )
+            {
+                if( !actField.isVisibled() )
+                {
+                    // if the current field is not visible set it
+                    actField.setVisibled( true );
+                    if( actField.isEmpty() )
+                    {
+                        // if an empty field... go through the other empty fields
+                        for ( int fieldPlace = FP_OVER; fieldPlace != FP_RIGHT_OVER; fieldPlace++ )
+                        {
+                            FieldPlace place = static_cast<FieldPlace>(fieldPlace);
+                            int newPlace[2];
+                            newPlace[0] = getNextFieldXCoords( place, x, y );
+                            newPlace[1] = getNextFieldYCoords( place, x, y );
+                            // update the minefield recursively
+                            updateMinefield( newPlace[0], newPlace[1] );
+                        }
+                    }
                 }
             }
         }
@@ -151,55 +173,72 @@ class Minefield
         }
 
         /**
-         * Return an integer array, what contains the new x-y coordinates.
+         * Return an X coordinate for next step.
          *
          * @param oldPlace the old place
          * @param x the x coordinate
          * @param y the y coordinate
          * @return the int[]
          */
-        int* getNextFieldCoords( FieldPlace oldPlace, int x, int y )
+        int getNextFieldXCoords( FieldPlace oldPlace, int x, int y )
         {
-            int result[2];
             switch( oldPlace )
             {
                 case FP_LEFT_OVER:
-                    result[0] = x - 1;
-                    result[1] = y - 1;
-                    break;
+                    return x - 1;
                 case FP_OVER:
-                    result[0] = x - 1;
-                    result[1] = y;
-                    break;
+                    return x - 1;
                 case FP_RIGHT_OVER:
-                    result[0] = x - 1;
-                    result[1] = y + 1;
-                    break;
+                    return x - 1;
                 case FP_LEFT:
-                    result[0] = x;
-                    result[1] = y - 1;
-                    break;
+                    return x;
                 case FP_RIGHT:
-                    result[0] = x;
-                    result[1] = y + 1;
-                    break;
+                    return x;
                 case FP_LEFT_UNDER:
-                    result[0] = x + 1;
-                    result[1] = y - 1;
-                    break;
+                    return x + 1;
                 case FP_UNDER:
-                    result[0] = x + 1;
-                    result[1] = y;
-                    break;
+                    return x + 1;
                 case FP_RIGHT_UNDER:
-                    result[0] = x + 1;
-                    result[1] = y + 1;
+                    return x + 1;
+                default:
                     break;
             }
-            return result;
+            return 0;
         }
 
-
+        /**
+         * Return an Y coordinate for next step.
+         *
+         * @param oldPlace the old place
+         * @param x the x coordinate
+         * @param y the y coordinate
+         * @return the int[]
+         */
+        int getNextFieldYCoords( FieldPlace oldPlace, int x, int y )
+        {
+            switch( oldPlace )
+            {
+                case FP_LEFT_OVER:
+                    return y - 1;
+                case FP_OVER:
+                    return y;
+                case FP_RIGHT_OVER:
+                    return y + 1;
+                case FP_LEFT:
+                    return y - 1;
+                case FP_RIGHT:
+                    return y + 1;
+                case FP_LEFT_UNDER:
+                    return y - 1;
+                case FP_UNDER:
+                    return y;
+                case FP_RIGHT_UNDER:
+                    return y + 1;
+                default:
+                    break;
+            }
+            return 0;
+        }
 
         /**
          * Gets the field at x, y coordinates.
@@ -239,7 +278,7 @@ class Minefield
          *
          * @return true, if all field is visibled
          */
-        bool isAllFieldVisibled()
+        bool checkAllFieldVisibled()
         {
             int rows = 0;
             int cols = 0;
