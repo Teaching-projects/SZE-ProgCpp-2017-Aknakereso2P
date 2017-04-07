@@ -11,13 +11,13 @@
 #include "src/main/configs/game.h"
 
 #include "src/main/util/constants.h"
+#include "src/main/util/logger.h"
 
 #include "src/main/entity/field.h"
 #include "src/main/entity/minefield.h"
 #include "src/main/entity/player.h"
 
-#include "src/main/util/logger.h"
-#include "src/main/util/game.h"
+#include "src/main/logic/game.h"
 
 #include "src/main/runner/app_initializr.h"
 #include "src/test/runner/test_app_initializr.h"
