@@ -4,26 +4,10 @@
 class Minefield
 {
     private:
-        Field   	mtx[CONST_MINEFIELD_ROWS][CONST_MINEFIELD_COLUMNS];
-
-        /**
-         * Checks if the given value is in the given values array.
-         *
-         * @param value the value for search
-         * @param values the array
-         * @return true, if the value is in the given values array
-         */
-        bool contains( int value, int values[] )
-        {
-            for( int i = 0; values[i]; i++ )
-            {
-                if( values[i] == value )
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        Field   	mtx[CONF_GAME_MINEFIELD_ROWS][CONF_GAME_MINEFIELD_COLUMNS];
+        int         rows;
+        int         columns;
+        int         numOfMines;
 
     public:
         /**
@@ -31,8 +15,9 @@ class Minefield
          */
         Minefield()
         {
-            create();
-            undermine();
+            rows = CONF_GAME_MINEFIELD_ROWS;
+            columns = CONF_GAME_MINEFIELD_COLUMNS;
+            numOfMines = CONF_GAME_MINEFIELD_NUM_OF_MINES;
         }
 
         /**
@@ -40,17 +25,21 @@ class Minefield
          */
         void create()
         {
-            for( int r = 0; r < CONST_MINEFIELD_ROWS; r++ )
+            int r, c, id, x, y;
+
+            logger.logDebug("Minefield creation started...");
+            for( r = 0; r < rows; r++ )
             {
-                for( int c = 0; c < CONST_MINEFIELD_COLUMNS; c++ )
+                for( c = 0; c < columns; c++ )
                 {
-                    int id = getFieldIdFromCoordinates( r, c, CONST_MINEFIELD_ROWS, CONST_MINEFIELD_COLUMNS );
-                    int x = getXCoordinateByFieldId( id, CONST_MINEFIELD_ROWS, CONST_MINEFIELD_COLUMNS );
-                    int y = getYCoordinateByFieldId( id, CONST_MINEFIELD_ROWS, CONST_MINEFIELD_COLUMNS );
+                    id = getFieldIdFromCoordinates( r, c, rows, columns );
+                    x = getXCoordinateByFieldId( id, rows, columns );
+                    y = getYCoordinateByFieldId( id, rows, columns );
                     mtx[r][c] = Field( id, x, y );
                 }
             }
-            printlnDebug("Minefield created...");
+            logger.logDebug("Minefield created");
+            logger.logDebug("The matrix size: [" + formatNumber(r) + "][" + formatNumber(c) + "]");
         }
 
         /**
@@ -58,26 +47,21 @@ class Minefield
          */
         void undermine()
         {
-            printDebug("Minefield undermining in progress...");
-            int indexOfGeneratedMines[CONST_MINEFIELD_NUM_OF_MINES];
+            int indexOfGeneratedMines[numOfMines];
             int numOfGeneratedMines = 0;
             srand((unsigned int) time (NULL));
-            while( numOfGeneratedMines < CONST_MINEFIELD_NUM_OF_MINES )
+            while( numOfGeneratedMines < numOfMines )
             {
-                int x = (rand()%(CONST_MINEFIELD_ROWS - 1)) + 1;
-                int y = (rand()%(CONST_MINEFIELD_COLUMNS - 1)) + 1;
-                int indexOfGeneratedMine = getFieldIdFromCoordinates( x, y, CONST_MINEFIELD_ROWS, CONST_MINEFIELD_COLUMNS );
+                int x = (rand()%(rows - 1)) + 1;
+                int y = (rand()%(columns - 1)) + 1;
+                int indexOfGeneratedMine = getFieldIdFromCoordinates( x, y, rows, columns );
                 if( !contains( indexOfGeneratedMine, indexOfGeneratedMines ) )
                 {
                     mtx[x][y].setMineSignal( -1 );
                     countMines(x,y);
                     indexOfGeneratedMines[numOfGeneratedMines++] = indexOfGeneratedMine;
-                    print(" .");
-                    print(convertNumberToString(mtx[x][y].getMineSignal()));
                 }
             }
-            println();
-            printlnDebug("Minefield undermined...");
         }
 
         /**
@@ -121,7 +105,7 @@ class Minefield
             print(" ");
             print(CONST_TAB);
             print("|");
-            for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+            for(int i=0; i<columns; i++)
             std::cout << CONST_TAB << CONST_MINEFIELD_HEADER[i];
             print(CONST_TAB);
             println("|");
@@ -129,21 +113,21 @@ class Minefield
             print("-----");
             print("----");
             print("-");
-            for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+            for(int i=0; i<columns; i++)
             print("-----");
             print("----");
             print("-");
             print("----");
             println("-----");
-            for(int i=0; i<CONST_MINEFIELD_ROWS; i++)
+            for(int i=0; i<rows; i++)
             {
                 print(CONST_TAB);
                 if((i+1)<10)
                 print(" ");
-                print(convertNumberToString(i+1));
+                print(formatNumber(i+1));
                 print(CONST_TAB);
                 print("|");
-                for(int j=0; j<CONST_MINEFIELD_COLUMNS; j++)
+                for(int j=0; j<columns; j++)
                 {
                     print(CONST_TAB);
                     if( mtx[i][j].isVisibled() )
@@ -153,7 +137,7 @@ class Minefield
                         else if( mtx[i][j].getMineSignal()==-1 )
                         print("*");
                         else if( mtx[i][j].getMineSignal()>0 )
-                        print(convertNumberToString(mtx[i][j].getMineSignal()));
+                        print(formatNumber(mtx[i][j].getMineSignal()));
                     }
                     else
                     print("#");
@@ -161,13 +145,13 @@ class Minefield
                 print(CONST_TAB);
                 print("|");
                 print(CONST_TAB);
-                println(convertNumberToString(i+1));
+                println(formatNumber(i+1));
             }
             print(" ");
             print("-----");
             print("----");
             print("-");
-            for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+            for(int i=0; i<columns; i++)
             print("-----");
             print("----");
             print("-");
@@ -178,7 +162,7 @@ class Minefield
             print(" ");
             print(CONST_TAB);
             print("|");
-            for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
+            for(int i=0; i<columns; i++)
             std::cout << CONST_TAB << CONST_MINEFIELD_HEADER[i];
             print(CONST_TAB);
             println("|");
@@ -348,9 +332,9 @@ class Minefield
         int checkNumberOfMines()
         {
             int numberOfMines = 0;
-            for( int i = 0; i < CONST_MINEFIELD_ROWS; i++ )
+            for( int i = 0; i < rows; i++ )
             {
-                for( int j = 0; j < CONST_MINEFIELD_COLUMNS; j++ )
+                for( int j = 0; j < columns; j++ )
                 {
                     if( mtx[i][j].isUndermined() )
                     {
@@ -371,9 +355,9 @@ class Minefield
             int rows = 0;
             int cols = 0;
             int visibledFields = 0;
-            for( rows = 0; rows < CONST_MINEFIELD_ROWS; rows++ )
+            for( rows = 0; rows < rows; rows++ )
             {
-                for( cols = 0; cols < CONST_MINEFIELD_COLUMNS; cols++ )
+                for( cols = 0; cols < columns; cols++ )
                 {
                     if( mtx[rows][cols].isVisibled() )
                     {
@@ -382,6 +366,26 @@ class Minefield
                 }
             }
             return visibledFields == rows * cols;
+        }
+
+    private:
+        /**
+         * Checks if the given value is in the given values array.
+         *
+         * @param value the value for search
+         * @param values the array
+         * @return true, if the value is in the given values array
+         */
+        bool contains( int value, int values[] )
+        {
+            for( int i = 0; values[i]; i++ )
+            {
+                if( values[i] == value )
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
 };

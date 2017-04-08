@@ -1,2 +1,8 @@
-#define CONST_GAME_HEADER_WIDTH             50
-#define CONST_GAME_TESTS_ENABLED            true
+#define CONF_GAME_HEADER_WIDTH              128
+
+#define CONF_GAME_MINEFIELD_ROWS            16
+#define CONF_GAME_MINEFIELD_COLUMNS         16
+#define CONF_GAME_MINEFIELD_NUM_OF_MINES    51
+
+const EnvProfile    CONF_GAME_ENV_PROFILE   = DEV;
+const LogLevel      CONF_GAME_ENV_LOG_LEVEL = DEBUG;

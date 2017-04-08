@@ -1,9 +1,8 @@
 /**
- * Test for Player entity.
+ * Test for Logger.
  */
-void testPlayer()
+void testLogger()
 {
     logger.logDebug("Running 'Player' entity tests");
-    Player p = Player("testPlayer");
     logger.logDebug("'Player' entity is valid");
 }

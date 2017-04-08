@@ -3,5 +3,9 @@
  */
 void testMinefield()
 {
-    std::cout << "Testing minefield entity" << std::endl;
+    logger.logDebug("Running 'Minefield' entity tests");
+    Minefield mf = Minefield();
+    mf.create();
+    // mf.undermine();
+    logger.logDebug("'Minefield' entity is valid");
 }

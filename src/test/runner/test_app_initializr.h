@@ -2,18 +2,32 @@
 #include "../entity/minefield_test.h"
 #include "../entity/player_test.h"
 
+#include "../util/logger_test.h"
+
 /**
- * Run tests.
+ * The Class MineszwiperTestAppInitializr.
  */
-void runTests()
+class MineszwiperTestAppInitializr
 {
-    printDebug("Initializing...");
-    if( CONST_GAME_TESTS_ENABLED )
-    {
-        testPlayer();
-        testField();
-        testMinefield();
-        clearScreen();
-    }
-    printDebug("Initialization finished!");
-}
+    public:
+        /**
+         * Run.
+         */
+        void run()
+        {
+            logger.logInfo("Initializing...");
+            if( isDevEnvironment() )
+            {
+                logger.logDebug("Tests are enabled");
+                logger.logDebug("Tests running...");
+
+                testField();
+                testMinefield();
+                testPlayer();            }
+            logger.logInfo("Initialization finished");
+
+            pause();
+            clearScr();
+        }
+
+};
