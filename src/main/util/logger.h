@@ -4,6 +4,20 @@
 class Logger
 {
     private:
+        LogLevel level;
+
+    public:
+        /**
+         * Instantiates a new logger.
+         *
+         * @param lvl the logging level
+         */
+        Logger(LogLevel lvl)
+        {
+            level = lvl;
+        }
+
+    private:
         /**
          * Checks if the log level is ERROR.
          *
@@ -11,10 +25,7 @@ class Logger
          */
         bool isErrorEnabled()
         {
-            return CONF_GAME_ENV_LOG_LEVEL == LL_ERROR
-                || CONF_GAME_ENV_LOG_LEVEL == WARN
-                || CONF_GAME_ENV_LOG_LEVEL == INFO
-                || CONF_GAME_ENV_LOG_LEVEL == DEBUG;
+            return level == LL_ERROR || level == WARN || level == INFO || level == DEBUG;
         }
 
         /**
@@ -24,9 +35,7 @@ class Logger
          */
         bool isWarningEnabled()
         {
-            return CONF_GAME_ENV_LOG_LEVEL == WARN
-                || CONF_GAME_ENV_LOG_LEVEL == INFO
-                || CONF_GAME_ENV_LOG_LEVEL == DEBUG;
+            return level == WARN || level == INFO || level == DEBUG;
         }
 
         /**
@@ -36,8 +45,7 @@ class Logger
          */
         bool isInformationEnabled()
         {
-            return CONF_GAME_ENV_LOG_LEVEL == INFO
-                || CONF_GAME_ENV_LOG_LEVEL == DEBUG;
+            return level == INFO || level == DEBUG;
         }
 
         /**
@@ -47,7 +55,18 @@ class Logger
          */
         bool isDebugEnabled()
         {
-            return CONF_GAME_ENV_LOG_LEVEL == DEBUG;
+            return level == DEBUG;
+        }
+
+        /**
+         * Gets now.
+         */
+        std::string getNow()
+        {
+            char now[128];
+            std::time_t t = std::time(0) ;
+            std::strftime( now, sizeof(now), "%Y-%m-%d.%X", std::localtime(&t) ) ;
+            return now;
         }
 
         /**
@@ -61,15 +80,6 @@ class Logger
             std::cout << "[" << l << "]";
             std::cout << " " << getNow() << " ";
             std::cout << "- " << m << std::endl;
-        }
-
-        /**
-         * Gets now.
-         */
-        time_t getNow()
-        {
-            time_t  timev;
-            return time(&timev);
         }
 
     public:
