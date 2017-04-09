@@ -6,13 +6,11 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "src/main/util/constants.h"
-#include "src/main/configs/game.h"
-#include "src/main/util/printer.h"
+#include "src/main/util/consts.h"
+#include "src/main/util/enums.h"
 #include "src/main/util/logger.h"
 
 #include "src/main/runner/app_initializr.h"
-#include "src/test/runner/test_app_initializr.h"
 
 /**
  * The 'Mineszwiper' game entry point.
@@ -21,7 +19,6 @@
  */
 int main()
 {
-    MineszwiperTestAppInitializr().run();
-    //run();
+    MineszwiperAppInitializr().run();
     return 0;
 }
