@@ -27,7 +27,8 @@ class Minefield
         {
             int r, c, id, x, y;
 
-            logger.logDebug("Minefield creation started...");
+            logger.logDebug("Creating minefield matrix");
+            println("Generating fields");
             for( r = 0; r < rows; r++ )
             {
                 for( c = 0; c < columns; c++ )
@@ -36,10 +37,20 @@ class Minefield
                     x = getXCoordinateByFieldId( id, rows, columns );
                     y = getYCoordinateByFieldId( id, rows, columns );
                     mtx[r][c] = Field( id, x, y );
+                    if( (r+1)*(c+1) % ((int)((rows*columns)/10)) == 0 )
+                    {
+                        print(".");
+                        core_sleep(100);
+                    }
+                    if( (r+1)*(c+1) == rows*columns )
+                    {
+                        println(".");
+                        core_sleep(100);
+                    }
                 }
             }
-            logger.logDebug("Minefield created");
-            logger.logDebug("The matrix size: [" + formatNumber(r) + "][" + formatNumber(c) + "]");
+            logger.logDebug("Successfully created minefield matrix");
+            logger.logDebug("Matrix size: [" + core_formatNumber(r) + "][" + core_formatNumber(c) + "]");
         }
 
         /**
@@ -47,21 +58,38 @@ class Minefield
          */
         void undermine()
         {
+            int x, y, undermined;
             int indexOfGeneratedMines[numOfMines];
-            int numOfGeneratedMines = 0;
-            srand((unsigned int) time (NULL));
+            int indexOfGeneratedMine, numOfGeneratedMines;
+
+            logger.logDebug("Undermining minefield matrix");
+            srand((unsigned int)time(0));
+            undermined = -1;
+            numOfGeneratedMines = 0;
+            println("Generating undermined fields");
             while( numOfGeneratedMines < numOfMines )
             {
-                int x = (rand()%(rows - 1)) + 1;
-                int y = (rand()%(columns - 1)) + 1;
-                int indexOfGeneratedMine = getFieldIdFromCoordinates( x, y, rows, columns );
-                if( !contains( indexOfGeneratedMine, indexOfGeneratedMines ) )
+                x = (rand()%(rows - 1)) + 1;
+                y = (rand()%(columns - 1)) + 1;
+                indexOfGeneratedMine = getFieldIdFromCoordinates(x, y, rows, columns);
+                if(!core_contains(indexOfGeneratedMine, indexOfGeneratedMines, numOfGeneratedMines))
                 {
-                    mtx[x][y].setMineSignal( -1 );
+                    mtx[x][y].setMineSignal(undermined);
                     countMines(x,y);
                     indexOfGeneratedMines[numOfGeneratedMines++] = indexOfGeneratedMine;
+                    if( numOfGeneratedMines % ((int)(numOfMines/10)) == 0 )
+                    {
+                        print(".");
+                        core_sleep(250);
+                    }
+                    if( numOfGeneratedMines == numOfMines )
+                    {
+                        println();
+                    }
                 }
             }
+            logger.logDebug("Successfully undermined minefield matrix");
+            logger.logDebug("Number of undermined fields: " + core_formatNumber(numOfGeneratedMines));
         }
 
         /**
@@ -124,7 +152,7 @@ class Minefield
                 print(CONST_TAB);
                 if((i+1)<10)
                 print(" ");
-                print(formatNumber(i+1));
+                print(core_formatNumber(i+1));
                 print(CONST_TAB);
                 print("|");
                 for(int j=0; j<columns; j++)
@@ -137,7 +165,7 @@ class Minefield
                         else if( mtx[i][j].getMineSignal()==-1 )
                         print("*");
                         else if( mtx[i][j].getMineSignal()>0 )
-                        print(formatNumber(mtx[i][j].getMineSignal()));
+                        print(core_formatNumber(mtx[i][j].getMineSignal()));
                     }
                     else
                     print("#");
@@ -145,7 +173,7 @@ class Minefield
                 print(CONST_TAB);
                 print("|");
                 print(CONST_TAB);
-                println(formatNumber(i+1));
+                println(core_formatNumber(i+1));
             }
             print(" ");
             print("-----");
@@ -204,6 +232,63 @@ class Minefield
             }
         }
 
+        /**
+         * Gets the field at x, y coordinates.
+         *
+         * @param x the x
+         * @param y the y
+         * @return the field
+         */
+        Field getField( int x, int y )
+        {
+            return mtx[x][y];
+        }
+
+        /**
+         * Check the number of mines.
+         *
+         * @return the int
+         */
+        int checkNumberOfMines()
+        {
+            int numberOfMines = 0;
+            for( int i = 0; i < rows; i++ )
+            {
+                for( int j = 0; j < columns; j++ )
+                {
+                    if( mtx[i][j].isUndermined() )
+                    {
+                        numberOfMines++;
+                    }
+                }
+            }
+            return numberOfMines;
+        }
+
+        /**
+         * Checks if is all field visibled.
+         *
+         * @return true, if all field is visibled
+         */
+        bool checkAllFieldVisibled()
+        {
+            int rows = 0;
+            int cols = 0;
+            int visibledFields = 0;
+            for( rows = 0; rows < rows; rows++ )
+            {
+                for( cols = 0; cols < columns; cols++ )
+                {
+                    if( mtx[rows][cols].isVisibled() )
+                    {
+                        visibledFields++;
+                    }
+                }
+            }
+            return visibledFields == rows * cols;
+        }
+
+    private:
         /**
          * Gets the field id from coordinates.
          *
@@ -310,82 +395,6 @@ class Minefield
                     break;
             }
             return 0;
-        }
-
-        /**
-         * Gets the field at x, y coordinates.
-         *
-         * @param x the x
-         * @param y the y
-         * @return the field
-         */
-        Field getField( int x, int y )
-        {
-            return mtx[x][y];
-        }
-
-        /**
-         * Check the number of mines.
-         *
-         * @return the int
-         */
-        int checkNumberOfMines()
-        {
-            int numberOfMines = 0;
-            for( int i = 0; i < rows; i++ )
-            {
-                for( int j = 0; j < columns; j++ )
-                {
-                    if( mtx[i][j].isUndermined() )
-                    {
-                        numberOfMines++;
-                    }
-                }
-            }
-            return numberOfMines;
-        }
-
-        /**
-         * Checks if is all field visibled.
-         *
-         * @return true, if all field is visibled
-         */
-        bool checkAllFieldVisibled()
-        {
-            int rows = 0;
-            int cols = 0;
-            int visibledFields = 0;
-            for( rows = 0; rows < rows; rows++ )
-            {
-                for( cols = 0; cols < columns; cols++ )
-                {
-                    if( mtx[rows][cols].isVisibled() )
-                    {
-                        visibledFields++;
-                    }
-                }
-            }
-            return visibledFields == rows * cols;
-        }
-
-    private:
-        /**
-         * Checks if the given value is in the given values array.
-         *
-         * @param value the value for search
-         * @param values the array
-         * @return true, if the value is in the given values array
-         */
-        bool contains( int value, int values[] )
-        {
-            for( int i = 0; values[i]; i++ )
-            {
-                if( values[i] == value )
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
 };
