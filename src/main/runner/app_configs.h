@@ -1,4 +1,4 @@
-#define CONF_GAME_HEADER_WIDTH              128
+#define CONF_GAME_HEADER_WIDTH              37
 
 #define CONF_GAME_MINEFIELD_ROWS            16
 #define CONF_GAME_MINEFIELD_COLUMNS         16
