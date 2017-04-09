@@ -1,9 +1,27 @@
 /**
- * Test for Player entity.
+ * The Class PlayerTest.
  */
-void testPlayer()
+class PlayerTest
 {
-    logger.logDebug("Running 'Player' entity tests");
-    Player p = Player("testPlayer");
-    logger.logDebug("'Player' entity is valid");
-}
+    private:
+        Player player;
+
+    public:
+        /**
+         * Instantiates a new player test.
+         */
+        PlayerTest()
+        {
+            player = Player("testPlayer");
+        }
+
+        /**
+         * Test for Player entity.
+         */
+        void testPlayer()
+        {
+            logger.logDebug("Running 'Player' entity tests");
+            logger.logDebug("'Player' entity is valid");
+        }
+
+};
