@@ -3,8 +3,7 @@
  */
 enum EnvProfile
 {
-    DEV,
-    PROD
+    DEV, PROD
 };
 
 /**
@@ -12,10 +11,7 @@ enum EnvProfile
  */
 enum LogLevel
 {
-    DEBUG,
-    INFO,
-    WARN,
-    LL_ERROR
+    DEBUG, INFO, WARN, LL_ERROR
 };
 
 /**

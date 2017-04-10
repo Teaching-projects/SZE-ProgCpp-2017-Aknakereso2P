@@ -1,8 +1,16 @@
 #define CONST_GAME_NAME                     "Mineszwiper Game"
 
 #define CONST_TAB                           "    "
+#define CONST_HEADER_H                      "-"
 
 #define CONST_MINEFIELD_HEADER              "ABCDEFGHIJKLMNOP"
+#define CONST_MINEFIELD_HEADER_W            "|"
+#define CONST_MINEFIELD_HEADER_W_OFFSET     " "
+#define CONST_MINEFIELD_HEADER_H            "----"
+#define CONST_MINEFIELD_HEADER_H_OFFSET     "-"
+
+#define CONST_FIELD_EMPTY                   0
+#define CONST_FIELD_UNDERMINED              -1
 
 #define CONST_PLAYER_ANONYMOUS_FIRSTNAME    "Anonymous"
 #define CONST_PLAYER_ANONYMOUS_LASTNAME     "Anonymous"
