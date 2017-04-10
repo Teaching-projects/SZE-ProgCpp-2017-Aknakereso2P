@@ -3,27 +3,19 @@
  */
 class MinefieldTest
 {
-    private:
-        Minefield mineField;
-
     public:
-        /**
-         * Instantiates a new minefield test.
-         */
-        MinefieldTest()
-        {
-            mineField = Minefield();
-        }
-
-        /**
-         * Test for Minefield entity.
-         */
-        void testMinefield()
-        {
-            logger.logDebug("Running 'Minefield' entity tests");
-            mineField.create();
-            mineField.undermine();
-            logger.logDebug("'Minefield' entity is valid");
-        }
-
+        void run(void);
 };
+
+/**
+ * Runs the tests for Minefield entity.
+ */
+void MinefieldTest::run(void)
+{
+    logger.logDebug("Running 'Minefield' entity tests");
+    Minefield mineField;
+    mineField.create();
+    mineField.undermine();
+    mineField.update(0, 0);
+    logger.logDebug("'Minefield' entity is valid");
+}
