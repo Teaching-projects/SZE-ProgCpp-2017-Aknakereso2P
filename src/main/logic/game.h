@@ -279,15 +279,13 @@ void MineszwiperGame::startNewGame()
             }
         }
         // checks if the players reached the winning mine points count
-        //if(p1.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
-        if(p1.getMinePoints()>=1)
+        if(p1.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
         {
             // player one is the winner - ends the game
             endGame(p1);
             core_pauseScr();
         }
-        //else if(p2.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
-        else if(p2.getMinePoints()>=1)
+        else if(p2.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
         {
             // player two is the winner - ends the game
             endGame(p2);
