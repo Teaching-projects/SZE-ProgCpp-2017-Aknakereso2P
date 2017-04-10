@@ -11,8 +11,8 @@ class MineszwiperGame
         MineszwiperGame();
         void showStartScreen(void);
         void showExitScreen(void);
-        bool isEndGame(void);
-        void setEndGame(bool ecg);
+        bool isEndCurrentGame(void);
+        void setEndCurrentGame(bool);
         bool isEnd(void);
         void setEnd(bool);
 
@@ -22,7 +22,6 @@ class MineszwiperGame
         void showMenu(void);
         void showSelectMenu(void);
         void startNewGame(void);
-        void endGame(Player winner);
         bool checkNickName(std::string nickName);
         bool checkRow(int row);
         int correctRow(int row);
@@ -33,7 +32,7 @@ class MineszwiperGame
 /**
  * Instantiates a new Mineszwiper game.
  */
-MineszwiperGame::MineszwiperGame()
+MineszwiperGame::MineszwiperGame(void)
 {
     endCurrentGame = false;
     exitGame = false;
@@ -68,7 +67,7 @@ void MineszwiperGame::showExitScreen(void)
  *
  * @return true, if the current game is ended
  */
-bool MineszwiperGame::isEndGame()
+bool MineszwiperGame::isEndCurrentGame(void)
 {
     return endCurrentGame;
 }
@@ -76,9 +75,9 @@ bool MineszwiperGame::isEndGame()
 /**
  * Sets the current game is ended.
  *
- * @param ecg the end current game
+ * @param eg the new current end game
  */
-void MineszwiperGame::setEndGame(bool ecg)
+void MineszwiperGame::setEndCurrentGame(bool ecg)
 {
     endCurrentGame = ecg;
 }
@@ -96,7 +95,7 @@ bool MineszwiperGame::isEnd()
 /**
  * Sets the game is ended.
  *
- * @param eg the end game
+ * @param eg the new end game
  */
 void MineszwiperGame::setEnd(bool eg)
 {
@@ -160,13 +159,15 @@ void MineszwiperGame::showSelectMenu()
  */
 void MineszwiperGame::startNewGame()
 {
+    setEndCurrentGame(false);
+    setEnd(false);
     core_clearScr();
     showTitle();
     println("Starting new game with players...");
     println();
 
     // getting player one nickname
-    std::string n1;
+    std::string n1 ("");
     do
     {
         print("Player one nickname: ");
@@ -181,7 +182,7 @@ void MineszwiperGame::startNewGame()
     p1.setHasTurn(true);
 
     // getting player two nickname
-    std::string n2;
+    std::string n2 ("");
     do
     {
         print("Player two nickname: ");
@@ -202,7 +203,7 @@ void MineszwiperGame::startNewGame()
     // game context    int turn = 0;
     int x, y;
     core_sleepSecs(2);
-    while(!isEndGame())
+    while(!isEndCurrentGame())
     {
         // while the current game is in progress
         core_clearScr();
@@ -279,16 +280,30 @@ void MineszwiperGame::startNewGame()
             }
         }
         // checks if the players reached the winning mine points count
-        if(p1.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
+        //if(p1.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
+        if(p1.getMinePoints()>=1)
         {
+            setEndCurrentGame(true);
             // player one is the winner - ends the game
-            endGame(p1);
+            core_clearScr();
+            showTitle();
+            println("Game ended!");
+            print("The winner is: ");
+            println(p1.getNickName());
+            mf.show();
             core_pauseScr();
         }
-        else if(p2.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
+        //else if(p2.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
+        else if(p2.getMinePoints()>=1)
         {
+            setEndCurrentGame(true);
             // player two is the winner - ends the game
-            endGame(p2);
+            core_clearScr();
+            showTitle();
+            println("Game ended!");
+            print("The winner is: ");
+            println(p2.getNickName());
+            mf.show();
             core_pauseScr();
         }
     }
@@ -314,22 +329,6 @@ int MineszwiperGame::correctRow(int row)
 int MineszwiperGame::correctColumn(int column)
 {
     return column - 1;
-}
-
-/**
- * Ends game.
- *
- * @param winner the winner player
- */
-void MineszwiperGame::endGame(Player winner)
-{
-    setEndGame(true);
-    println();
-    println();
-    println("Game ended!");
-    print("The winner is: ");
-    println(winner.getNickName());
-    println("Press any key to continue...");
 }
 
 /**
