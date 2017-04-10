@@ -1,163 +1,370 @@
-bool endgame = false;
+/**
+ * The Class MineszwiperGame.
+ */
+class MineszwiperGame
+{
+    private:
+        bool endCurrentGame;
+        bool exitGame;
+
+    public:
+        MineszwiperGame();
+        void showStartScreen(void);
+        void showExitScreen(void);
+        bool isEndGame(void);
+        void setEndGame(bool ecg);
+        bool isEnd(void);
+        void setEnd(bool);
+
+    private:
+        void showTitle(void);
+        void showTitle(std::string subTitle);
+        void showMenu(void);
+        void showSelectMenu(void);
+        void startNewGame(void);
+        void endGame(Player winner);
+        bool checkNickName(std::string nickName);
+        bool checkRow(int row);
+        int correctRow(int row);
+        bool checkColumn(int column);
+        int correctColumn(int column);
+};
 
 /**
- * Sleep thread until given milliseconds.
+ * Instantiates a new Mineszwiper game.
+ */
+MineszwiperGame::MineszwiperGame()
+{
+    endCurrentGame = false;
+    exitGame = false;
+}
+
+/**
+ * Shows the start screen.
+ */
+void MineszwiperGame::showStartScreen(void)
+{
+    core_clearScr();
+    showTitle();
+    showMenu();
+    showSelectMenu();
+}
+
+/**
+ * Exiting console screen.
+ */
+void MineszwiperGame::showExitScreen(void)
+{
+    core_clearScr();
+    showTitle();
+    println();
+    println("Program exiting...");
+    println("Good bye!");
+    core_sleepSecs(2);
+}
+
+/**
+ * Checks if the current game is ended.
  *
- * @param ms the milliseconds
+ * @return true, if the current game is ended
  */
-void sleep(unsigned ms)
+bool MineszwiperGame::isEndGame()
 {
-    Sleep(ms);
+    return endCurrentGame;
 }
 
 /**
- * Sleep thread until given seconds.
+ * Sets the current game is ended.
  *
- * @param s the seconds
+ * @param ecg the end current game
  */
-void sleepSecs(int s)
+void MineszwiperGame::setEndGame(bool ecg)
 {
-    sleep(s * 1000);
+    endCurrentGame = ecg;
 }
 
 /**
- * End.
+ * Checks if the game is ended.
+ *
+ * @return true, if the game is ended
  */
-void endGame(Player winner)
+bool MineszwiperGame::isEnd()
 {
-    clearScreen();
-    printlnInfo("Game ended");
-    printInfo("The winner is: ");
-    print(winner.getNickName());
-    pauseScreen();
-    endgame = true;
+    return exitGame;
 }
 
 /**
- * Start.
+ * Sets the game is ended.
+ *
+ * @param eg the end game
  */
-void startNewGame()
+void MineszwiperGame::setEnd(bool eg)
 {
-    int x, y, turn;
-    char col;
-    std::string playerOneNickName, playerTwoNickName;
-
-    clearScreen();
-    printlnDebug("New game starting...");
-
-    printlnDebug("Initializing players...");
-    print("[CIN] Player 1 nickname: ");
-    std::cin >> playerOneNickName;
-
-    print("[CIN] Player 2 nickname: ");
-    std::cin >> playerTwoNickName;
-
-    printDebug("Initializing minefield");
-    Minefield mineField = Minefield();
-    pauseScreen();
-    Player p1 = Player(playerOneNickName);
-    Player p2 = Player(playerOneNickName);
-    turn = 1;
-
-    while(!endgame)
-    {
-        clearScreen();
-        printInfo("Turn ");
-        println(convertNumberToString(turn++));
-
-        mineField.show();
-
-        println();
-        print("CIN [ROW]: ");
-        std::cin >> x;
-        print("CIN [COLUMN]: ");
-        std::cin >> col;
-
-        for(int i=0; i<CONST_MINEFIELD_COLUMNS; i++)
-        {
-            if(col == CONST_MINEFIELD_HEADER[i])
-            {
-                y = i;
-                break;
-            }
-        }
-        mineField.updateMinefield(x-1,y);
-    }
-
-    endGame(p1);
+    exitGame = eg;
 }
 
 /**
- * Exit.
+ * Shows the game title.
  */
-void exitGame()
+void MineszwiperGame::showTitle()
 {
-    clearScreen();
-    printlnInfo("Game exiting...");
-    endgame = true;
+    for(int i=0; i<CONF_GAME_HEADER_WIDTH; i++)
+    print(CONST_HEADER_H);
+    println();
+    for(int i=0; i<CONF_GAME_HEADER_WIDTH_OFFSET; i++)
+    print(CONST_MINEFIELD_HEADER_W_OFFSET);
+    println(CONST_GAME_NAME);
+    for(int i=0; i<CONF_GAME_HEADER_WIDTH; i++)
+    print(CONST_HEADER_H);
+    println();
+}
+
+/**
+ * Shows the game menu.
+ */
+void MineszwiperGame::showMenu()
+{
+    println();
+    println("1. New game");
+    println("2. Exit");
+    println();
 }
 
 /**
  * Select menu item from user at the start screen.
  */
-void selectMenuItem()
+void MineszwiperGame::showSelectMenu()
 {
-    printlnInfo("Please select a menu item, than press enter");
-    print("CIN: ");
-
+    print("Please select a menu: ");
     int selectedMenuItem;
     std::cin >> selectedMenuItem;
     std::cin.clear();
-    std::cin.ignore(512, '\n');
+    std::cin.ignore(sizeof(int), '\n');
     switch(selectedMenuItem)
     {
         case 1:
             startNewGame();
             break;
         case 2:
-            exitGame();
+            setEnd(true);
             break;
         default:
-            printlnWarn("Wrong menu selected");
-            selectMenuItem();
+            println("Wrong menu selected!");
+            showSelectMenu();
             break;
     }
 }
 
 /**
- * Shows the game title.
+ * Starts a new game.
  */
-void showTitle()
+void MineszwiperGame::startNewGame()
 {
-    for(int i=0; i<CONST_GAME_HEADER_WIDTH; i++)
-    print("#");
-    println();
-    std::cout << "          " << CONST_GAME_NAME;
-    println();
-    for(int i=0; i<CONST_GAME_HEADER_WIDTH; i++)
-    print("#");
-}
-
-/**
- * Shows the game menu.
- */
-void showMenu()
-{
-    println("1. New game");
-    println("2. Exit");
-}
-
-/**
- * Shows the start screen.
- */
-void showStartScreen()
-{
-    clearScreen();
+    core_clearScr();
     showTitle();
+    println("Starting new game with players...");
+    println();
+
+    // getting player one nickname
+    std::string n1;
+    do
+    {
+        print("Player one nickname: ");
+        std::cin >> n1;
+        std::cin.clear();
+        std::cin.ignore(sizeof(std::string), '\n');
+    }
+    while(!checkNickName(n1));
+    Player p1;
+    p1.setNickName(n1);
+    // player one starts the game
+    p1.setHasTurn(true);
+
+    // getting player two nickname
+    std::string n2;
+    do
+    {
+        print("Player two nickname: ");
+        std::cin >> n2;
+        std::cin.clear();
+        std::cin.ignore(sizeof(std::string), '\n');
+    }
+    while(!checkNickName(n2));
+    Player p2;
+    p2.setNickName(n2);
+
+    println();
+    println("Game starting");
+    // minefield
+    Minefield mf;
+    mf.create();
+    mf.undermine();
+    // game context    int turn = 0;
+    int x, y;
+    core_sleepSecs(2);
+    while(!isEndGame())
+    {
+        // while the current game is in progress
+        core_clearScr();
+        showTitle();
+        // turn informations
+        println("Turn: " + core_formatNumber(++turn));
+        print("Next player: ");
+        if(p1.isHasTurn())
+        {
+            println(p1.getNickName());
+        }
+        else
+        {
+            println(p2.getNickName());
+        }
+        println(p1.getNickName() + ": " + core_formatNumber(p1.getMinePoints()));
+        println(p2.getNickName() + ": " + core_formatNumber(p2.getMinePoints()));
+
+        // shows the minefield
+        mf.show();
+
+        // getting row
+        do
+        {
+            print("ROW: ");
+            int row;
+            std::cin >> row;
+            std::cin.clear();
+            std::cin.ignore(sizeof(int), '\n');
+            x = correctRow(row);
+        }
+        while(!checkRow(x));
+
+        // getting column
+        do
+        {
+            print("COLUMN: ");
+            int col;
+            std::cin >> col;
+            std::cin.clear();
+            std::cin.ignore(sizeof(int), '\n');
+            y = correctColumn(col);
+        }
+        while(!checkColumn(y));
+
+        // update the "clicked" position
+        mf.update(x, y);
+        // checks if the "clicked" field was undermined
+        if(mf.fieldIsUndermined(x, y))
+        {
+            // count the turn owner mine points
+            if(p1.isHasTurn())
+            {
+                p1.countMinePoints();
+            }
+            else
+            {
+                p2.countMinePoints();
+            }
+        }
+        else
+        {
+            // if it was not
+            // the next player will be the other
+            if(p1.isHasTurn())
+            {
+                p1.setHasTurn(false);
+                p2.setHasTurn(true);
+            }
+            else
+            {
+                p1.setHasTurn(true);
+                p2.setHasTurn(false);
+            }
+        }
+        // checks if the players reached the winning mine points count
+        //if(p1.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
+        if(p1.getMinePoints()>=1)
+        {
+            // player one is the winner - ends the game
+            endGame(p1);
+            core_pauseScr();
+        }
+        //else if(p2.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
+        else if(p2.getMinePoints()>=1)
+        {
+            // player two is the winner - ends the game
+            endGame(p2);
+            core_pauseScr();
+        }
+    }
+}
+
+/**
+ * Corrects the row input.
+ *
+ * @param row the row
+ * @return the corrected row
+ */
+int MineszwiperGame::correctRow(int row)
+{
+    return row - 1;
+}
+
+/**
+ * Corrects the column input.
+ *
+ * @param column the column
+ * @return the corrected column
+ */
+int MineszwiperGame::correctColumn(int column)
+{
+    return column - 1;
+}
+
+/**
+ * Ends game.
+ *
+ * @param winner the winner player
+ */
+void MineszwiperGame::endGame(Player winner)
+{
+    setEndGame(true);
     println();
     println();
-    showMenu();
-    println();
-    println();
-    selectMenuItem();
+    println("Game ended!");
+    print("The winner is: ");
+    println(winner.getNickName());
+    println("Press any key to continue...");
+}
+
+/**
+ * Checks if the given nick name is valid.
+ *
+ * @param nickName the nick name
+ * @return true, if the nickName is valid
+ */
+bool MineszwiperGame::checkNickName(std::string nickName)
+{
+    // TODO [dderdak] checkNickName
+    return true;
+}
+
+/**
+ * Checks if the given row is valid.
+ *
+ * @param row the row
+ * @return true, if the row is valid
+ */
+bool MineszwiperGame::checkRow(int row)
+{
+    // TODO [dderdak] checkRow
+    return true;
+}
+
+/**
+ * Checks if the given column is valid.
+ *
+ * @param column the column
+ * @return true, if the column is valid
+ */
+bool MineszwiperGame::checkColumn(int column)
+{
+    // TODO [dderdak] checkColumn    return true;
 }

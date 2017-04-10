@@ -1,16 +1,22 @@
 /**
- * Test for Field entity.
+ * The Class FieldTest.
  */
-void testField()
+class FieldTest
 {
-    std::cout << "Testing field entity" << std::endl;
+    public:
+        void run(void);
+};
 
-    Field f (1, 2, 3);
-
-    std::cout << "field.id: " << f.getId() << std::endl;
-    std::cout << "field.x: " << f.getCoordinateX() << std::endl;
-    std::cout << "field.y: " << f.getCoordinateY() << std::endl;
-    std::cout << "field.mineSignal: " << f.getMineSignal() << std::endl;
-    f.countMineSignal();
-    std::cout << "field.mineSignal: " << f.getMineSignal() << std::endl;
+/**
+ * Runs the tests for Field entity.
+ */
+void FieldTest::run(void)
+{
+    logger.logDebug("Running 'Field' entity tests");
+    Field field;
+    field.setId(1);
+    field.setCoordinateX(2);
+    field.setCoordinateY(3);
+    field.countMineSignal();
+    logger.logDebug("'Field' entity is valid");
 }

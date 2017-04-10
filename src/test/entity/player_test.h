@@ -1,7 +1,19 @@
 /**
- * Test for Player entity.
+ * The Class PlayerTest.
  */
-void testPlayer()
+class PlayerTest
 {
-    std::cout << "Testing player entity" << std::endl;
+    public:
+        void run(void);
+};
+
+/**
+ * Runs the tests for Player entity.
+ */
+void PlayerTest::run(void)
+{
+    logger.logDebug("Running 'Player' entity tests");
+    Player player;
+    player.setNickName("testPlayer");
+    logger.logDebug("'Player' entity is valid");
 }

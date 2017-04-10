@@ -1,170 +1,149 @@
 /**
- * Prints the given message.
+ * The Class Logger.
+ */
+class Logger
+{
+    private:
+        LogLevel level;
+
+    public:
+        Logger(LogLevel lvl);
+        void logError(std::string m);
+        void logWarn(std::string m);
+        void logInfo(std::string m);
+        void logDebug(std::string m);
+
+    private:
+        bool isErrorEnabled(void);
+        bool isWarningEnabled(void);
+        bool isInformationEnabled(void);
+        bool isDebugEnabled(void);
+        std::string getNow(void);
+        void log(std::string l, std::string m);
+};
+
+/**
+ * Instantiates a new logger.
  *
- * @param m the message
+ * @param lvl the logging level
  */
-void print(std::string m)
+Logger::Logger(LogLevel lvl)
 {
-    std::cout << m;
+    level = lvl;
 }
 
 /**
- * Prints a line break.
- */
-void println()
-{
-    std::cout << std::endl;
-}
-
-/**
- * Prints a line break with the given message.
+ * Checks if the log level is ERROR.
  *
- * @param m the message
+ * @return true, if the log level is ERROR
  */
-void println(std::string m)
+bool Logger::isErrorEnabled(void)
 {
-    print(m);
-    println();
+    return level == LL_ERROR || level == WARN || level == INFO || level == DEBUG;
 }
 
 /**
- * Clears the console screen.
+ * Checks if the log level is WARN.
+ *
+ * @return true, if the log level is WARN
  */
-void clearScreen()
+bool Logger::isWarningEnabled(void)
 {
-    system("CLS");
+    return level == WARN || level == INFO || level == DEBUG;
+}
+
+/**
+ * Checks if the log level is INFO.
+ *
+ * @return true, if the log level is INFO
+ */
+bool Logger::isInformationEnabled(void)
+{
+    return level == INFO || level == DEBUG;
+}
+
+/**
+ * Checks if the log level is DEBUG.
+ *
+ * @return true, if the log level is DEBUG
+ */
+bool Logger::isDebugEnabled(void)
+{
+    return level == DEBUG;
 }
 
 /**
  * Gets now.
  */
-time_t getNow()
+std::string Logger::getNow(void)
 {
-    time_t  timev;
-    return time(&timev);
+    char now[128];
+    std::time_t t = std::time(0) ;
+    std::strftime( now, sizeof(now), "%Y-%m-%d.%X", std::localtime(&t) ) ;
+    return now;
 }
 
 /**
- * Pausing console screen.
+ * Log the given message with the given log level.
+ *
+ * @param l the log level
+ * @param m the message
  */
-void pauseScreen()
+void Logger::log(std::string l, std::string m)
 {
-    getch();
+    std::cout << "[" << l << "]";
+    std::cout << " " << getNow() << " ";
+    std::cout << "- " << m << std::endl;
 }
 
 /**
- * Exiting console screen.
- */
-void exitScreen()
-{
-    println("Program exiting...");
-    println("Please press any key to exit");
-    pauseScreen();
-}
-
-/**
- * Prints ERROR level message with the given message content.
+ * Log ERROR with the given message.
  *
  * @param m the message
  */
- void printError(std::string m)
+void Logger::logError(std::string m)
 {
-    print(CONST_LOGGER_LOG_LEVEL_ERROR);
-    //print(getNow() + " ");
-    print(m);
+    if(isErrorEnabled())
+    {
+        log( CONST_LOGGER_LOG_LEVEL_ERROR, m );
+    }
 }
 
 /**
- * Prints ERROR level message with the given message content.
+ * Log WARNING with the given message.
  *
  * @param m the message
  */
- void printlnError(std::string m)
+void Logger::logWarn(std::string m)
 {
-    print(CONST_LOGGER_LOG_LEVEL_ERROR);
-    //print(getNow() + " ");
-    println(m);
+    if(isWarningEnabled())
+    {
+        log( CONST_LOGGER_LOG_LEVEL_WARNING, m );
+    }
 }
 
 /**
- * Prints WARNING level message with the given message content.
+ * Log INFORMATION with the given message.
  *
  * @param m the message
  */
-void printWarn(std::string m)
+void Logger::logInfo(std::string m)
 {
-    print(CONST_LOGGER_LOG_LEVEL_WARNING);
-    //print(getNow() + " ");
-    print(m);
+    if(isInformationEnabled())
+    {
+        log( CONST_LOGGER_LOG_LEVEL_INFORMATION, m );
+    }
 }
 
 /**
- * Prints WARNING level message with the given message content.
+ * Log DEBUG with the given message.
  *
  * @param m the message
  */
-void printlnWarn(std::string m)
+void Logger::logDebug(std::string m)
 {
-    print(CONST_LOGGER_LOG_LEVEL_WARNING);
-    //print(getNow() + " ");
-    println(m);
-}
-
-/**
- * Prints INFORMATION level message with the given message content.
- *
- * @param m the message
- */
-void printInfo(std::string m)
-{
-    print(CONST_LOGGER_LOG_LEVEL_INFORMATION);
-    //print(getNow() + " ");
-    print(m);
-}
-
-/**
- * Prints INFORMATION level message with the given message content.
- *
- * @param m the message
- */
-void printlnInfo(std::string m)
-{
-    print(CONST_LOGGER_LOG_LEVEL_INFORMATION);
-    //print(getNow() + " ");
-    println(m);
-}
-
-/**
- * Prints DEBUG level message with the given message content.
- *
- * @param m the message
- */
-void printDebug(std::string m)
-{
-    print(CONST_LOGGER_LOG_LEVEL_DEBUG);
-    //print(getNow() + " ");
-    println(m);
-}
-
-/**
- * Prints DEBUG level message with the given message content.
- *
- * @param m the message
- */
-void printlnDebug(std::string m)
-{
-    print(CONST_LOGGER_LOG_LEVEL_DEBUG);
-    //print(getNow() + " ");
-    println(m);
-}
-
-/**
- * Converts given number to string.
- *
- * @param number the number to convert
- * @return the converted number string
- */
-std::string convertNumberToString(int number)
-{
-    return static_cast<std::ostringstream*>( &(std::ostringstream() << number) )->str();
+    if(isDebugEnabled())
+    {
+        log( CONST_LOGGER_LOG_LEVEL_DEBUG, m );
+    }
 }
