@@ -9,6 +9,6 @@
 const EnvProfile    CONF_GAME_ENV_PROFILE   = PROD;
 
 //const LogLevel      CONF_GAME_ENV_LOG_LEVEL = DEBUG;
-//const LogLevel      CONF_GAME_ENV_LOG_LEVEL = INFO;
-const LogLevel      CONF_GAME_ENV_LOG_LEVEL = WARN;
+const LogLevel      CONF_GAME_ENV_LOG_LEVEL = INFO;
+//const LogLevel      CONF_GAME_ENV_LOG_LEVEL = WARN;
 //const LogLevel      CONF_GAME_ENV_LOG_LEVEL = LL_ERROR;
