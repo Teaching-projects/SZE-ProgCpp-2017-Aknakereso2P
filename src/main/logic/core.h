@@ -3,15 +3,25 @@
  *
  * @param m the message
  */
-void print(std::string m)
+static void print(std::string m)
 {
     std::cout << m;
 }
 
 /**
+ * Prints the given character to the console.
+ *
+ * @param c the character
+ */
+static void print(char c)
+{
+    std::cout << c;
+}
+
+/**
  * Prints a line break to the console.
  */
-void println()
+static void println()
 {
     std::cout << std::endl;
 }
@@ -21,27 +31,25 @@ void println()
  *
  * @param m the message
  */
-void println(std::string m)
+static void println(std::string m)
 {
     std::cout << m << std::endl;
 }
 
 /**
- * Checks if the current environment is a DEV environment.
- *
- * @return true, if the environment is in development
+ * Clears the console.
  */
-bool core_isDevEnvironment()
+static void core_clearScr()
 {
-    return CONF_GAME_ENV_PROFILE == DEV;
+    system("CLS");
 }
 
 /**
- * "Pausing" the console screen.
+ * Pauses the console.
  */
-void core_pause()
+static int core_pauseScr()
 {
-    getch();
+    return getch();
 }
 
 /**
@@ -49,7 +57,7 @@ void core_pause()
  *
  * @param ms the milliseconds
  */
-void core_sleep(unsigned ms)
+static void core_sleep(unsigned ms)
 {
     Sleep(ms);
 }
@@ -59,17 +67,19 @@ void core_sleep(unsigned ms)
  *
  * @param s the seconds
  */
-void core_sleepSecs(int s)
+static void core_sleepSecs(int s)
 {
     core_sleep(s * 1000);
 }
 
 /**
- * Clears the console screen.
+ * Checks if the current environment is a DEV environment.
+ *
+ * @return true, if the environment is in development
  */
-void core_clearScr()
+static bool core_isDevEnvironment()
 {
-    system("CLS");
+    return CONF_GAME_ENV_PROFILE == DEV;
 }
 
 /**
@@ -78,27 +88,7 @@ void core_clearScr()
  * @param number the number to convert
  * @return the converted number string
  */
-std::string core_formatNumber(int number)
+static std::string core_formatNumber(int number)
 {
     return static_cast<std::ostringstream*>( &(std::ostringstream() << number) )->str();
-}
-
-/**
- * Checks if the given value is in the given values array.
- *
- * @param value the value for search
- * @param values the array
- * @param length the length of the array
- * @return true, if the value is in the given values array
- */
-bool core_contains( int value, int values[], int length )
-{
-    for( int i = 0; i<length; i++ )
-    {
-        if( values[i] == value )
-        {
-            return true;
-        }
-    }
-    return false;
 }
