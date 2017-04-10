@@ -26,7 +26,7 @@ class MineszwiperGame
         bool checkRow(int row);
         int correctRow(int row);
         bool checkColumn(int column);
-        int correctColumn(int column);
+        int correctColumn(char column);
 };
 
 /**
@@ -241,10 +241,10 @@ void MineszwiperGame::startNewGame()
         do
         {
             print("COLUMN: ");
-            int col;
+            char col;
             std::cin >> col;
             std::cin.clear();
-            std::cin.ignore(sizeof(int), '\n');
+            std::cin.ignore(sizeof(char), '\n');
             y = correctColumn(col);
         }
         while(!checkColumn(y));
@@ -280,8 +280,7 @@ void MineszwiperGame::startNewGame()
             }
         }
         // checks if the players reached the winning mine points count
-        //if(p1.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
-        if(p1.getMinePoints()>=1)
+        if(p1.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
         {
             setEndCurrentGame(true);
             // player one is the winner - ends the game
@@ -293,8 +292,7 @@ void MineszwiperGame::startNewGame()
             mf.show();
             core_pauseScr();
         }
-        //else if(p2.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
-        else if(p2.getMinePoints()>=1)
+        else if(p2.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
         {
             setEndCurrentGame(true);
             // player two is the winner - ends the game
@@ -326,9 +324,16 @@ int MineszwiperGame::correctRow(int row)
  * @param column the column
  * @return the corrected column
  */
-int MineszwiperGame::correctColumn(int column)
+int MineszwiperGame::correctColumn(char column)
 {
-    return column - 1;
+    for(int i=0; i<CONF_GAME_MINEFIELD_COLUMNS; i++)
+    {
+        if(column==CONST_MINEFIELD_HEADER[i])
+        {
+            return i;
+        }
+    }
+    return -1;
 }
 
 /**
@@ -339,7 +344,11 @@ int MineszwiperGame::correctColumn(int column)
  */
 bool MineszwiperGame::checkNickName(std::string nickName)
 {
-    // TODO [dderdak] checkNickName
+    if( nickName.empty() )
+    {
+        println("Nickname can not be empty!");
+        return false;
+    }
     return true;
 }
 
@@ -351,7 +360,11 @@ bool MineszwiperGame::checkNickName(std::string nickName)
  */
 bool MineszwiperGame::checkRow(int row)
 {
-    // TODO [dderdak] checkRow
+    if( row < 0 && row > CONF_GAME_MINEFIELD_ROWS)
+    {
+        println("Given ROW is out of range! Help [1;16]");
+        return false;
+    }
     return true;
 }
 
@@ -363,5 +376,10 @@ bool MineszwiperGame::checkRow(int row)
  */
 bool MineszwiperGame::checkColumn(int column)
 {
-    // TODO [dderdak] checkColumn    return true;
+    if( column < 0 && column > CONF_GAME_MINEFIELD_COLUMNS)
+    {
+        println("Given COLUMN is out of range! Help [A;P]");
+        return false;
+    }
+    return true;
 }

@@ -27,6 +27,14 @@ Creating the production ready project: build and compile in IDE.
 * **obj** folder: is the place of the generated resources
 * **bin** folder: is the place of the generated executables
 
+# Play the game
+The recommended console size is:
+	WIDTH:	106
+	HEIGHT:	 35
+First you have to select the 'New game' menu than giving 2 player name, and after that you can play the Mineszwiper game.
+First input is the row (1-16), second input is the column (A-P). In case of invalid input, must happen nothing. 
+Only the valid inputs refreshes the minefield. The winner will be the firs player who collect the first 26 mine on the field.
+
 # Tests
 ---
 Testing the application: run the application with set to true the CONST_GAME_TESTS_ENABLED in cofig file.

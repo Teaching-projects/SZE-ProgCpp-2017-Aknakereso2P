@@ -209,7 +209,7 @@ void Minefield::show(void)
     for(int i=0; i<columns; i++)
     {
         print(CONST_TAB);
-        print(core_formatNumber(i));
+        print(CONST_MINEFIELD_HEADER[i]);
     }
     print(CONST_TAB);
     println(CONST_MINEFIELD_HEADER_W);
