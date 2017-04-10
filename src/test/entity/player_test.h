@@ -3,25 +3,17 @@
  */
 class PlayerTest
 {
-    private:
-        Player player;
-
     public:
-        /**
-         * Instantiates a new player test.
-         */
-        PlayerTest()
-        {
-            player = Player("testPlayer");
-        }
-
-        /**
-         * Test for Player entity.
-         */
-        void testPlayer()
-        {
-            logger.logDebug("Running 'Player' entity tests");
-            logger.logDebug("'Player' entity is valid");
-        }
-
+        void run(void);
 };
+
+/**
+ * Runs the tests for Player entity.
+ */
+void PlayerTest::run(void)
+{
+    logger.logDebug("Running 'Player' entity tests");
+    Player player;
+    player.setNickName("testPlayer");
+    logger.logDebug("'Player' entity is valid");
+}
