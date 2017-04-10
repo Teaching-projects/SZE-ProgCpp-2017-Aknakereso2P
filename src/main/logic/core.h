@@ -47,9 +47,9 @@ static void core_clearScr()
 /**
  * Pauses the console.
  */
-static int core_pauseScr()
+static void core_pauseScr()
 {
-    return getch();
+    system("PAUSE");
 }
 
 /**
