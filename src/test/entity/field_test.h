@@ -3,26 +3,20 @@
  */
 class FieldTest
 {
-    private:
-        Field field;
-
     public:
-        /**
-         * Instantiates a new field test.
-         */
-        FieldTest()
-        {
-            field = Field(1, 2, 3);
-        }
-
-        /**
-         * Test for Field entity.
-         */
-        void testField()
-        {
-            logger.logDebug("Running 'Field' entity tests");
-            field.countMineSignal();
-            logger.logDebug("'Field' entity is valid");
-        }
-
+        void run(void);
 };
+
+/**
+ * Runs the tests for Field entity.
+ */
+void FieldTest::run(void)
+{
+    logger.logDebug("Running 'Field' entity tests");
+    Field field;
+    field.setId(1);
+    field.setCoordinateX(2);
+    field.setCoordinateY(3);
+    field.countMineSignal();
+    logger.logDebug("'Field' entity is valid");
+}
