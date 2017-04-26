@@ -34,7 +34,6 @@ MineszwiperAppInitializr::MineszwiperAppInitializr()
         tests.run();
     }
     logger.logInfo("Initialization finished");
-    core_sleepSecs(2);
 }
 
 /**

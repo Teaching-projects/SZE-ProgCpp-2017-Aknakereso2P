@@ -53,26 +53,6 @@ static void core_pauseScr()
 }
 
 /**
- * Sleep thread until given milliseconds.
- *
- * @param ms the milliseconds
- */
-static void core_sleep(unsigned ms)
-{
-    Sleep(ms);
-}
-
-/**
- * Sleep thread until given seconds.
- *
- * @param s the seconds
- */
-static void core_sleepSecs(int s)
-{
-    core_sleep(s * 1000);
-}
-
-/**
  * Checks if the current environment is a DEV environment.
  *
  * @return true, if the environment is in development

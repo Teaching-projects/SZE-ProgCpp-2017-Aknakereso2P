@@ -53,13 +53,11 @@ void Minefield::create(void)
             {
                 // if created the 10% of number of the generated fields
                 print(".");
-                core_sleep(150);
             }
             if( (r+1)*(c+1) == rows*columns )
             {
                 // if created the 100% of number of the generated fields
                 println(".");
-                core_sleep(150);
             }
         }
     }
@@ -109,13 +107,11 @@ void Minefield::undermine(void)
             {
                 // if undermined the 10% of number of the mine numbers
                 print(".");
-                core_sleep(300);
             }
             if( numOfGeneratedMines == numOfMines )
             {
                 // if undermined the 100% of number of the mine numbers
                 println();
-                core_sleep(300);
             }
         }
     }

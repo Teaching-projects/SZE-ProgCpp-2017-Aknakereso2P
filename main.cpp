@@ -4,7 +4,6 @@
 #include <set>
 #include <iostream>
 #include <sstream>
-#include <windows.h>
 
 #include "src/main/util/consts.h"
 #include "src/main/util/enums.h"

@@ -59,7 +59,7 @@ void MineszwiperGame::showExitScreen(void)
     println();
     println("Program exiting...");
     println("Good bye!");
-    core_sleepSecs(2);
+    core_pauseScr();
 }
 
 /**
@@ -202,7 +202,6 @@ void MineszwiperGame::startNewGame()
     mf.undermine();
     // game context    int turn = 0;
     int x, y;
-    core_sleepSecs(2);
     while(!isEndCurrentGame())
     {
         // while the current game is in progress

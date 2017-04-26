@@ -33,4 +33,5 @@ void MineszwiperTestAppInitializr::run(void)
     PlayerTest pt;
     pt.run();
     logger.logDebug("Tests finished");
+    core_pauseScr();
 }
