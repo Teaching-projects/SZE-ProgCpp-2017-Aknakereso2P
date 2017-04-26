@@ -8,6 +8,9 @@
 #define CONST_MINEFIELD_HEADER_W_OFFSET     " "
 #define CONST_MINEFIELD_HEADER_H            "----"
 #define CONST_MINEFIELD_HEADER_H_OFFSET     "-"
+#define CONST_MINEFIELD_EMPTY_FIELD         " "
+#define CONST_MINEFIELD_UNDERMINED_FIELD    "*"
+#define CONST_MINEFIELD_INVISIBLE_FIELD     "#"
 
 #define CONST_FIELD_EMPTY                   0
 #define CONST_FIELD_UNDERMINED              -1

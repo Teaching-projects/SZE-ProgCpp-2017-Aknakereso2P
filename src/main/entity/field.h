@@ -9,7 +9,6 @@ class Field
         int		coordinateY;
         int		mineSignal;
         bool	visibled;
-        bool	flagged;
 
     public:
         Field();
@@ -25,7 +24,6 @@ class Field
         void setMineSignal(int ms);
         bool isVisibled(void);
         void setVisibled(bool v);
-        void setFlagged(bool f);
         bool isEmpty(void);
         bool isUndermined(void);
 };
@@ -40,7 +38,6 @@ Field::Field()
     coordinateY = 0;
     mineSignal = CONST_FIELD_EMPTY;
     visibled = false;
-    flagged = false;
 }
 
 /**
@@ -149,16 +146,6 @@ bool Field::isVisibled()
 void Field::setVisibled( bool v )
 {
     visibled = v;
-}
-
-/**
- * Sets this field to flagged or not.
- *
- * @param f the new flagged
- */
-void Field::setFlagged( bool f )
-{
-    flagged = f;
 }
 
 /**

@@ -15,7 +15,7 @@
 /**
  * The 'Mineszwiper' game entry point.
  *
- * @author dderdak
+ * @author dderdak, BartosDenisa
  */
 int main()
 {

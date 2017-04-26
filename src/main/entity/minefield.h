@@ -172,14 +172,14 @@ void Minefield::show(void)
             if( mtx[i][j].isVisibled() )
             {
                 if( mtx[i][j].getMineSignal()==CONST_FIELD_EMPTY )
-                print(" ");
+                print(CONST_MINEFIELD_EMPTY_FIELD);
                 else if( mtx[i][j].getMineSignal()==CONST_FIELD_UNDERMINED )
-                print("*");
+                print(CONST_MINEFIELD_UNDERMINED_FIELD);
                 else if( mtx[i][j].getMineSignal()>0 )
                 print(core_formatNumber(mtx[i][j].getMineSignal()));
             }
             else
-            print("#");
+            print(CONST_MINEFIELD_INVISIBLE_FIELD);
         }
         print(CONST_TAB);
         print(CONST_MINEFIELD_HEADER_W);
