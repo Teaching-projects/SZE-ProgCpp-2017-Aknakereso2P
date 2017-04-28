@@ -13,7 +13,15 @@ MineszwiperAppInitializr::MineszwiperAppInitializr()
         Utilities::core_pauseScr();
     }
     Logger::getInstance()->logInfo("Initialization finished");
-    run();
+    try
+    {
+        Logger::getInstance()->logInfo("Application starting...");
+        run();
+    }
+    catch (...)
+    {
+        Logger::getInstance()->logError("Ooups!... Something went wrong :( ");
+    }
 }
 
 /**

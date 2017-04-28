@@ -16,7 +16,5 @@ MinefieldTest::MinefieldTest()
 void MinefieldTest::run(void)
 {
     Minefield mineField;
-    mineField.create();
-    mineField.undermine();
     mineField.show(true);
 }

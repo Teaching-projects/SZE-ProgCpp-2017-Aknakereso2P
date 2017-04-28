@@ -16,5 +16,9 @@ PlayerTest::PlayerTest()
 void PlayerTest::run(void)
 {
     Player player;
-    player.setNickName("testPlayer");
+    std::string anonymNickName = player.getNickName();
+    if(anonymNickName.compare(CONST_PLAYER_ANONYMOUS_NICKNAME))
+    {
+        Logger::getInstance()->logWarn("'Player' is not ANONYMOUS");
+    }
 }
