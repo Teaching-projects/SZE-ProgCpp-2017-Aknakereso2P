@@ -10,6 +10,7 @@ Field::Field()
     coordinateY = 0;
     mineSignal = CONST_FIELD_EMPTY;
     visibled = false;
+    flagged = false;
 }
 
 /**
@@ -118,6 +119,26 @@ bool Field::isVisibled()
 void Field::setVisibled( bool v )
 {
     visibled = v;
+}
+
+/**
+ * Checks if this field is flagged or not.
+ *
+ * @return true, if this field is flagged
+ */
+bool Field::isFlagged()
+{
+    return flagged;
+}
+
+/**
+ * Sets this field to flagged or not.
+ *
+ * @param v the new flagged
+ */
+void Field::setFlagged( bool f )
+{
+    flagged = f;
 }
 
 /**

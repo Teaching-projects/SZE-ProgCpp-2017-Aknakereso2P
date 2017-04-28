@@ -30,8 +30,11 @@ class Minefield
         void create(void);
         void undermine(void);
         void show(void);
+        void show(bool forTest);
         void update(int x, int y);
+        void setFieldFlagged(int x, int y);
         bool fieldIsUndermined(int x, int y);
+        bool fieldIsFlagged(int x, int y);
 
     private:
         int getFieldIdFromCoordinates(int x, int y);

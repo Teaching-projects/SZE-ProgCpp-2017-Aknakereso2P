@@ -139,7 +139,7 @@ void MineszwiperGame::startNewGame()
     Utilities::println();
 
     // getting player one nickname
-    std::string n1 ("");
+    std::string n1;
     do
     {
         Utilities::print("Player one nickname: ");
@@ -154,7 +154,7 @@ void MineszwiperGame::startNewGame()
     p1.setHasTurn(true);
 
     // getting player two nickname
-    std::string n2 ("");
+    std::string n2;
     do
     {
         Utilities::print("Player two nickname: ");
@@ -168,10 +168,10 @@ void MineszwiperGame::startNewGame()
 
     Utilities::println();
     Utilities::println("Game starting");
-    // minefield
+
+    // create new minefield
     Minefield mf;
-    mf.create();
-    mf.undermine();
+
     // game context    int turn = 0;
     int x, y;
     while(!isEndCurrentGame())
@@ -180,7 +180,8 @@ void MineszwiperGame::startNewGame()
         Utilities::core_clearScr();
         showTitle();
         // turn informations
-        Utilities::println("Turn: " + Utilities::core_formatNumber(++turn));
+        Utilities::print("Turn: ");
+        Utilities::println(Utilities::core_formatNumber(turn+1));
         Utilities::print("Next player: ");
         if(p1.isHasTurn())
         {
@@ -190,6 +191,7 @@ void MineszwiperGame::startNewGame()
         {
             Utilities::println(p2.getNickName());
         }
+
         // player 1 informations
         Utilities::print(p1.getNickName());
         Utilities::print(": ");
@@ -231,24 +233,30 @@ void MineszwiperGame::startNewGame()
 
         // update the "clicked" position
         mf.update(x, y);
-        // checks if the "clicked" field was undermined
-        if(mf.fieldIsUndermined(x, y))
+
+        if(!mf.fieldIsFlagged(x, y))
         {
-            // count the turn owner mine points
-            if(p1.isHasTurn())
+            // set the field as a clicked field
+            mf.setFieldFlagged(x, y);
+
+            // checks if the "clicked" field was undermined
+            if(mf.fieldIsUndermined(x, y))
             {
-                p1.countMinePoints();
+                // count the turn owner mine points
+                if(p1.isHasTurn())
+                {
+                    // count player points
+                    p1.countMinePoints();
+                }
+                else
+                {
+                    // count player points
+                    p2.countMinePoints();
+                }
+
             }
-            else
-            {
-                p2.countMinePoints();
-            }
-        }
-        else
-        {
-            // if it was not
-            // the next player will be the other
-            if(p1.isHasTurn())
+            // if it was not the next player will be the other player
+            else if(p1.isHasTurn())
             {
                 p1.setHasTurn(false);
                 p2.setHasTurn(true);
@@ -258,31 +266,33 @@ void MineszwiperGame::startNewGame()
                 p1.setHasTurn(true);
                 p2.setHasTurn(false);
             }
-        }
-        // checks if the players reached the winning mine points count
-        if(p1.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
-        {
-            setEndCurrentGame(true);
-            // player one is the winner - ends the game
-            Utilities::core_clearScr();
-            showTitle();
-            Utilities::println("Game ended!");
-            Utilities::print("The winner is: ");
-            Utilities::println(p1.getNickName());
-            mf.show();
-            Utilities::core_pauseScr();
-        }
-        else if(p2.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
-        {
-            setEndCurrentGame(true);
-            // player two is the winner - ends the game
-            Utilities::core_clearScr();
-            showTitle();
-            Utilities::println("Game ended!");
-            Utilities::print("The winner is: ");
-            Utilities::println(p2.getNickName());
-            mf.show();
-            Utilities::core_pauseScr();
+
+            // checks if the players reached the winning mine points count
+            if(p1.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
+            {
+                setEndCurrentGame(true);
+                // player one is the winner - ends the game
+                Utilities::core_clearScr();
+                showTitle();
+                Utilities::println("Game ended!");
+                Utilities::print("The winner is: ");
+                Utilities::println(p1.getNickName());
+                mf.show();
+                Utilities::core_pauseScr();
+            }
+            else if(p2.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
+            {
+                setEndCurrentGame(true);
+                // player two is the winner - ends the game
+                Utilities::core_clearScr();
+                showTitle();
+                Utilities::println("Game ended!");
+                Utilities::print("The winner is: ");
+                Utilities::println(p2.getNickName());
+                mf.show();
+                Utilities::core_pauseScr();
+            }
+            turn++;
         }
     }
 }
@@ -308,7 +318,8 @@ int MineszwiperGame::correctColumn(char column)
 {
     for(int i=0; i<CONF_GAME_MINEFIELD_COLUMNS; i++)
     {
-        if(column==CONST_MINEFIELD_HEADER[i])
+        if(column==CONST_MINEFIELD_HEADER[i]
+           || toupper(column) == CONST_MINEFIELD_HEADER[i])
         {
             return i;
         }

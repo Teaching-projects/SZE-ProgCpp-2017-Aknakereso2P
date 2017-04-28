@@ -14,6 +14,7 @@ class Field
         int		coordinateY;
         int		mineSignal;
         bool	visibled;
+        bool    flagged;
 
     public:
         Field();
@@ -29,6 +30,8 @@ class Field
         void setMineSignal(int ms);
         bool isVisibled(void);
         void setVisibled(bool v);
+        bool isFlagged(void);
+        void setFlagged(bool f);
         bool isEmpty(void);
         bool isUndermined(void);
 };
