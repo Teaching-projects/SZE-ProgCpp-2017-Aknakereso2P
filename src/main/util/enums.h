@@ -1,3 +1,6 @@
+#ifndef ENUMS_H_INCLUDED
+#define ENUMS_H_INCLUDED
+
 /**
  * The Enum EnvProfile.
  */
@@ -28,3 +31,5 @@ enum FieldPlace
     FP_RIGHT, // field place at the right
     FP_RIGHT_OVER // field place a the right over
 };
+
+#endif // ENUMS_H_INCLUDED

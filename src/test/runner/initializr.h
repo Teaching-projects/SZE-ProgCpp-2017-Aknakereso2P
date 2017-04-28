@@ -1,3 +1,9 @@
+#ifndef INITIALIZR_TEST_H_INCLUDED
+#define INITIALIZR_TEST_H_INCLUDED
+
+#include "../../main/util/logger.h"
+#include "../../main/util/utilities.h"
+
 #include "../entity/field_test.h"
 #include "../entity/minefield_test.h"
 #include "../entity/player_test.h"
@@ -12,26 +18,4 @@ class MineszwiperTestAppInitializr
         void run(void);
 };
 
-/**
- * Instantiates a new Mineszwiper test app initializer.
- */
-MineszwiperTestAppInitializr::MineszwiperTestAppInitializr()
-{
-    logger.logDebug("Tests are enabled");
-}
-
-/**
- * Run.
- */
-void MineszwiperTestAppInitializr::run(void)
-{
-    logger.logDebug("Tests running...");
-    FieldTest ft;
-    ft.run();
-    MinefieldTest mft;
-    mft.run();
-    PlayerTest pt;
-    pt.run();
-    logger.logDebug("Tests finished");
-    core_pauseScr();
-}
+#endif // INITIALIZR_TEST_H_INCLUDED

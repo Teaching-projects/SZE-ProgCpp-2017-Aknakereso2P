@@ -1,9 +1,21 @@
+#include "utilities.h"
+
 /**
  * Prints the given message to the console.
  *
  * @param m the message
  */
-static void print(std::string m)
+void Utilities::print(std::string m)
+{
+    std::cout << m;
+}
+
+/**
+ * Prints the given message to the console.
+ *
+ * @param m the message
+ */
+void Utilities::print(std::string *m)
 {
     std::cout << m;
 }
@@ -13,7 +25,7 @@ static void print(std::string m)
  *
  * @param c the character
  */
-static void print(char c)
+void Utilities::print(char c)
 {
     std::cout << c;
 }
@@ -21,7 +33,7 @@ static void print(char c)
 /**
  * Prints a line break to the console.
  */
-static void println()
+void Utilities::println()
 {
     std::cout << std::endl;
 }
@@ -31,7 +43,7 @@ static void println()
  *
  * @param m the message
  */
-static void println(std::string m)
+void Utilities::println(std::string m)
 {
     std::cout << m << std::endl;
 }
@@ -39,7 +51,7 @@ static void println(std::string m)
 /**
  * Clears the console.
  */
-static void core_clearScr()
+void Utilities::core_clearScr()
 {
     system("CLS");
 }
@@ -47,7 +59,7 @@ static void core_clearScr()
 /**
  * Pauses the console.
  */
-static void core_pauseScr()
+void Utilities::core_pauseScr()
 {
     system("PAUSE");
 }
@@ -57,7 +69,7 @@ static void core_pauseScr()
  *
  * @return true, if the environment is in development
  */
-static bool core_isDevEnvironment()
+bool Utilities::core_isDevEnvironment()
 {
     return CONF_GAME_ENV_PROFILE == DEV;
 }
@@ -68,7 +80,7 @@ static bool core_isDevEnvironment()
  * @param number the number to convert
  * @return the converted number string
  */
-static std::string core_formatNumber(int number)
+std::string Utilities::core_formatNumber(int number)
 {
     return static_cast<std::ostringstream*>( &(std::ostringstream() << number) )->str();
 }

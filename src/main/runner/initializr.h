@@ -1,16 +1,11 @@
-#include "configs.h"
-
-#include "../logic/core.h"
-
-static Logger logger = Logger(CONF_GAME_ENV_LOG_LEVEL);
-
-#include "../entity/field.h"
-#include "../entity/minefield.h"
-#include "../entity/player.h"
-
-#include "../logic/game.h"
+#ifndef INITIALIZR_H_INCLUDED
+#define INITIALIZR_H_INCLUDED
 
 #include "../../test/runner/initializr.h"
+
+#include "../util/logger.h"
+#include "../util/utilities.h"
+#include "../logic/game.h"
 
 /**
  * The Class MineszwiperAppInitializr.
@@ -22,29 +17,4 @@ class MineszwiperAppInitializr
         void run(void);
 };
 
-/**
- * Instantiates a new Mineszwiper game initializer.
- */
-MineszwiperAppInitializr::MineszwiperAppInitializr()
-{
-    logger.logInfo("Initializing...");
-    if( core_isDevEnvironment() )
-    {
-        MineszwiperTestAppInitializr tests;
-        tests.run();
-    }
-    logger.logInfo("Initialization finished");
-}
-
-/**
- * Runs the application.
- */
-void MineszwiperAppInitializr::run(void)
-{
-    MineszwiperGame game;
-    while(!game.isEnd())
-    {
-        game.showStartScreen();
-    }
-    game.showExitScreen();
-}
+#endif // INITIALIZR_H_INCLUDED

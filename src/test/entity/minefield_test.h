@@ -1,21 +1,17 @@
+#ifndef MINEFIELD_FIELD_TEST_H_INCLUDED
+#define MINEFIELD_FIELD_TEST_H_INCLUDED
+
+#include "../../main/util/logger.h"
+#include "../../main/entity/minefield.h"
+
 /**
  * The Class MinefieldTest.
  */
 class MinefieldTest
 {
     public:
+        MinefieldTest();
         void run(void);
 };
 
-/**
- * Runs the tests for Minefield entity.
- */
-void MinefieldTest::run(void)
-{
-    logger.logDebug("Running 'Minefield' entity tests");
-    Minefield mineField;
-    mineField.create();
-    mineField.undermine();
-    mineField.update(0, 0);
-    logger.logDebug("'Minefield' entity is valid");
-}
+#endif // MINEFIELD_FIELD_TEST_H_INCLUDED
