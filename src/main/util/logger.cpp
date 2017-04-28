@@ -1,12 +1,16 @@
 #include "logger.h"
 
 /**
+ * Static initialization.
+ */
+bool    Logger::INSTANCE_FLAG   = false;
+Logger* Logger::INSTANCE        = NULL;
+
+/**
  * Gets the instance.
  *
  * @return the logger
  */
-bool Logger::INSTANCE_FLAG = false;
-Logger* Logger::INSTANCE = NULL;
 Logger* Logger::getInstance()
 {
     if(!INSTANCE_FLAG)

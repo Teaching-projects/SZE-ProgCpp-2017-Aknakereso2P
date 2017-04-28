@@ -6,6 +6,8 @@
 MinefieldTest::MinefieldTest()
 {
     Logger::getInstance()->logDebug("Running 'Minefield' entity tests");
+    run();
+    Logger::getInstance()->logDebug("'Minefield' entity is valid");
 }
 
 /**
@@ -16,6 +18,5 @@ void MinefieldTest::run(void)
     Minefield mineField;
     mineField.create();
     mineField.undermine();
-    mineField.update(0, 0);
-    Logger::getInstance()->logDebug("'Minefield' entity is valid");
+    mineField.show(true);
 }

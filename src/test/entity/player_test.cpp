@@ -6,6 +6,8 @@
 PlayerTest::PlayerTest()
 {
     Logger::getInstance()->logDebug("Running 'Player' entity tests");
+    run();
+    Logger::getInstance()->logDebug("'Player' entity is valid");
 }
 
 /**
@@ -15,6 +17,4 @@ void PlayerTest::run(void)
 {
     Player player;
     player.setNickName("testPlayer");
-    Logger::getInstance()->logDebug("'Player' entity is valid");
 }
-

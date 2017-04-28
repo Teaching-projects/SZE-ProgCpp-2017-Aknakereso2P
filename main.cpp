@@ -8,6 +8,5 @@
 int main()
 {
     MineszwiperAppInitializr mineszwiper;
-    mineszwiper.run();
     return 0;
 }

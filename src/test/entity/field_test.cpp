@@ -6,6 +6,8 @@
 FieldTest::FieldTest()
 {
     Logger::getInstance()->logDebug("Running 'Field' entity tests");
+    run();
+    Logger::getInstance()->logDebug("'Field' entity is valid");
 }
 
 /**
@@ -18,5 +20,4 @@ void FieldTest::run(void)
     field.setCoordinateX(2);
     field.setCoordinateY(3);
     field.countMineSignal();
-    Logger::getInstance()->logDebug("'Field' entity is valid");
 }
