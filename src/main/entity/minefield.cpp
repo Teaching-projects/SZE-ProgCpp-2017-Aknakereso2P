@@ -69,26 +69,25 @@ void Minefield::undermine(void)
             indexOfGeneratedMines.insert(indexOfGeneratedMine);
             mtx[x][y].setMineSignal(CONST_FIELD_UNDERMINED);
             numOfGeneratedMines++;
+
             // looking for mines around the actual field at x, y coordinate
-            for(int fieldPlace=START; fieldPlace!=END; fieldPlace++)
+            for(int fieldPlace=FP_OVER; fieldPlace!=END; fieldPlace++)
             {
                 FieldPlace p = static_cast<FieldPlace>(fieldPlace);
-                if(p != -1)
+                int nextXCoor = getNextRow(p, x);
+                int nextYCoor = getNextColumn(p, y);
+                // valid next coordinates
+                if(checkCoordinates(nextXCoor,nextYCoor))
                 {
-                    int nextXCoor = getNextRow(p, x);
-                    int nextYCoor = getNextColumn(p, y);
-                    // valid next coordinates
-                    if(checkCoordinates(nextXCoor,nextYCoor))
+                    // NOT undermined fields
+                    if(mtx[nextXCoor][nextYCoor].getMineSignal() > CONST_FIELD_UNDERMINED)
                     {
-                        // NOT undermined fields
-                        if( mtx[nextXCoor][nextYCoor].getMineSignal() >= 0 )
-                        {
-                            // and counts the mine signal.
-                            mtx[nextXCoor][nextYCoor].countMineSignal();
-                        }
+                        // counts the mine signal
+                        mtx[nextXCoor][nextYCoor].countMineSignal();
                     }
                 }
             }
+
             // print informations about undermining process
             if( numOfGeneratedMines % ((int)(numOfMines/10)) == 0 )
             {
@@ -246,24 +245,10 @@ void Minefield::show(bool forTest)
         for(int j=0; j<columns; j++)
         {
             Utilities::print(CONST_MINEFIELD_HEADER_TAB);
-            if( forTest )
-            {
-                if( mtx[i][j].getMineSignal()==CONST_FIELD_UNDERMINED )
-                    Utilities::print(CONST_MINEFIELD_UNDERMINED_FIELD);
-                else
-                    Utilities::print(Utilities::core_formatNumber(mtx[i][j].getMineSignal()));
-            }
-            else if( !forTest && mtx[i][j].isVisibled() )
-            {
-                if( mtx[i][j].getMineSignal()==CONST_FIELD_EMPTY )
-                    Utilities::print(CONST_MINEFIELD_EMPTY_FIELD);
-                else if( mtx[i][j].getMineSignal()==CONST_FIELD_UNDERMINED )
-                    Utilities::print(CONST_MINEFIELD_UNDERMINED_FIELD);
-                else if( mtx[i][j].getMineSignal()>0 )
-                    Utilities::print(Utilities::core_formatNumber(mtx[i][j].getMineSignal()));
-            }
+            if(mtx[i][j].getMineSignal() == CONST_FIELD_UNDERMINED)
+                Utilities::print(CONST_MINEFIELD_UNDERMINED_FIELD);
             else
-                Utilities::print(CONST_MINEFIELD_INVISIBLE_FIELD);
+                Utilities::print(Utilities::core_formatNumber(mtx[i][j].getMineSignal()));
         }
         Utilities::print(CONST_MINEFIELD_HEADER_TAB);
         Utilities::print(CONST_MINEFIELD_HEADER_W);
@@ -313,42 +298,26 @@ void Minefield::update(int x, int y)
     if(checkCoordinates(x,y) && !mtx[x][y].isVisibled())
     {
         // set it visibled
-        mtx[x][y].setVisibled( true );
+        mtx[x][y].setVisibled(true);
+        // set the field as a clicked field
+        mtx[x][y].setFlagged(true);
         // and if it is an empty field
         if( mtx[x][y].isEmpty() )
         {
-            // if an empty field was clicked set the visible empty fields as clicked fields
-            mtx[x][y].setFlagged( true );
             // go through the other empty fields
-            for(int fieldPlace=START; fieldPlace!=END; fieldPlace++)
+            for(int fieldPlace=FP_OVER; fieldPlace!=END; fieldPlace++)
             {
                 FieldPlace p = static_cast<FieldPlace>(fieldPlace);
-                if(p != -1)
-                {
-                    int r = getNextRow(p, x);
-                    int c = getNextColumn(p, y);
-                    // and update the minefield recursively
-                    update(r, c);
-                }
-                else
-                    return;
+                int r = getNextRow(p, x);
+                int c = getNextColumn(p, y);
+                // and update the minefield recursively
+                update(r, c);
             }
         }
         else
             return;
     }
     return;
-}
-
-/**
- * Sets the clicked field as a flagged field.
- *
- * @param x the x coordinate
- * @param y the y coordinate
- */
-void Minefield::setFieldFlagged(int x, int y)
-{
-    mtx[x][y].setFlagged(true);
 }
 
 /**

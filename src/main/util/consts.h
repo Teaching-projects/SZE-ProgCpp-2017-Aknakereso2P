@@ -17,8 +17,6 @@
 #define CONST_FIELD_EMPTY                   0
 #define CONST_FIELD_UNDERMINED              -1
 
-#define CONST_PLAYER_ANONYMOUS_FIRSTNAME    "Anonymous"
-#define CONST_PLAYER_ANONYMOUS_LASTNAME     "Anonymous"
 #define CONST_PLAYER_ANONYMOUS_NICKNAME     "player"
 
 #define CONST_LOGGER_LOG_LEVEL_ERROR        "ERROR"

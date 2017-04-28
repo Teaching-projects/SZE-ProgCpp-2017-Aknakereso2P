@@ -5,8 +5,6 @@
  */
 Player::Player()
 {
-    firstName = CONST_PLAYER_ANONYMOUS_FIRSTNAME;
-    lastName = CONST_PLAYER_ANONYMOUS_LASTNAME;
     nickName = CONST_PLAYER_ANONYMOUS_NICKNAME;
     minePoints = 0;
     hasTurn = false;
@@ -18,46 +16,6 @@ Player::Player()
 void Player::countMinePoints(void)
 {
     ++minePoints;
-}
-
-/**
- * Gets the first name.
- *
- * @return the first name
- */
-std::string Player::getFirstName(void)
-{
-    return firstName;
-}
-
-/**
- * Sets the first name.
- *
- * @param fName the new first name
- */
-void Player::setFirstName(std::string fName)
-{
-    firstName = fName;
-}
-
-/**
- * Gets the last name.
- *
- * @return the last name
- */
-std::string Player::getLastName(void)
-{
-    return lastName;
-}
-
-/**
- * Sets the last name.
- *
- * @param lName the new last name
- */
-void Player::setLastName(std::string lName)
-{
-    lastName = lName;
 }
 
 /**

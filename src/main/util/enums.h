@@ -22,7 +22,6 @@ enum LogLevel
  */
 enum FieldPlace
 {
-    START,
 	FP_OVER, // field place at the above
 	FP_LEFT_OVER, // field place at the left over
     FP_LEFT, // field place at the left

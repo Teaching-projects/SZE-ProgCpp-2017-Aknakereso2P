@@ -11,8 +11,6 @@
 class Player
 {
     private:
-        std::string     firstName;
-        std::string     lastName;
         std::string     nickName;
         int		        minePoints;
         bool	        hasTurn;
@@ -20,10 +18,6 @@ class Player
     public:
         Player();
         void countMinePoints(void);
-        std::string getFirstName(void);
-        void setFirstName(std::string fName);
-        std::string getLastName(void);
-        void setLastName(std::string lName);
         std::string getNickName(void);
         void setNickName(std::string nName);
         int getMinePoints(void);

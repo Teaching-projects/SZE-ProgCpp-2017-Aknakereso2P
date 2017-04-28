@@ -231,13 +231,10 @@ void MineszwiperGame::startNewGame()
         }
         while(!checkColumn(y));
 
-        // update the "clicked" position
-        mf.update(x, y);
-
         if(!mf.fieldIsFlagged(x, y))
         {
-            // set the field as a clicked field
-            mf.setFieldFlagged(x, y);
+            // update the "clicked" position
+            mf.update(x, y);
 
             // checks if the "clicked" field was undermined
             if(mf.fieldIsUndermined(x, y))

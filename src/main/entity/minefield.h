@@ -32,7 +32,6 @@ class Minefield
         void show(void);
         void show(bool forTest);
         void update(int x, int y);
-        void setFieldFlagged(int x, int y);
         bool fieldIsUndermined(int x, int y);
         bool fieldIsFlagged(int x, int y);
 
