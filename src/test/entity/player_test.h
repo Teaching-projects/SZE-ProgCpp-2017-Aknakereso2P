@@ -1,19 +1,17 @@
+#ifndef PLAYER_TEST_H_INCLUDED
+#define PLAYER_TEST_H_INCLUDED
+
+#include "../../main/util/logger.h"
+#include "../../main/entity/player.h"
+
 /**
  * The Class PlayerTest.
  */
 class PlayerTest
 {
     public:
+        PlayerTest();
         void run(void);
 };
 
-/**
- * Runs the tests for Player entity.
- */
-void PlayerTest::run(void)
-{
-    logger.logDebug("Running 'Player' entity tests");
-    Player player;
-    player.setNickName("testPlayer");
-    logger.logDebug("'Player' entity is valid");
-}
+#endif // PLAYER_TEST_H_INCLUDED

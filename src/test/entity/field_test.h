@@ -1,22 +1,17 @@
+#ifndef FIELD_TEST_H_INCLUDED
+#define FIELD_TEST_H_INCLUDED
+
+#include "../../main/util/logger.h"
+#include "../../main/entity/field.h"
+
 /**
  * The Class FieldTest.
  */
 class FieldTest
 {
     public:
+        FieldTest();
         void run(void);
 };
 
-/**
- * Runs the tests for Field entity.
- */
-void FieldTest::run(void)
-{
-    logger.logDebug("Running 'Field' entity tests");
-    Field field;
-    field.setId(1);
-    field.setCoordinateX(2);
-    field.setCoordinateY(3);
-    field.countMineSignal();
-    logger.logDebug("'Field' entity is valid");
-}
+#endif // FIELD_TEST_H_INCLUDED

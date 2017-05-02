@@ -1,19 +1,22 @@
-#define CONST_GAME_NAME                     "Mineszwiper Game"
+#ifndef CONSTS_H_INCLUDED
+#define CONSTS_H_INCLUDED
 
-#define CONST_TAB                           "    "
-#define CONST_HEADER_H                      "-"
+#define CONST_GAME_NAME                     "Mineszwiper Game"
 
 #define CONST_MINEFIELD_HEADER              "ABCDEFGHIJKLMNOP"
 #define CONST_MINEFIELD_HEADER_W            "|"
 #define CONST_MINEFIELD_HEADER_W_OFFSET     " "
 #define CONST_MINEFIELD_HEADER_H            "----"
 #define CONST_MINEFIELD_HEADER_H_OFFSET     "-"
+#define CONST_MINEFIELD_HEADER_TAB          "    "
+
+#define CONST_MINEFIELD_EMPTY_FIELD         " "
+#define CONST_MINEFIELD_UNDERMINED_FIELD    "*"
+#define CONST_MINEFIELD_INVISIBLE_FIELD     "#"
 
 #define CONST_FIELD_EMPTY                   0
 #define CONST_FIELD_UNDERMINED              -1
 
-#define CONST_PLAYER_ANONYMOUS_FIRSTNAME    "Anonymous"
-#define CONST_PLAYER_ANONYMOUS_LASTNAME     "Anonymous"
 #define CONST_PLAYER_ANONYMOUS_NICKNAME     "player"
 
 #define CONST_LOGGER_LOG_LEVEL_ERROR        "ERROR"
@@ -21,3 +24,5 @@
 #define CONST_LOGGER_LOG_LEVEL_INFORMATION  "INFO "
 #define CONST_LOGGER_LOG_LEVEL_DEBUG        "DEBUG"
 #define CONST_LOGGER_DEFAULT_DATE_FORMAT    "%Y-%m-%d.%X"
+
+#endif // CONSTS_H_INCLUDED
