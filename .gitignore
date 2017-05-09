@@ -32,3 +32,8 @@
 *.cbp
 *.layout
 *.depend
+
+
+# Makefile dependencies, backups
+*.d
+*.bak
