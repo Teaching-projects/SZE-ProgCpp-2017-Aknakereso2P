@@ -1,4 +1,6 @@
 #include "ComputerPlayer.h"
+#include "../runner/configs.h"
+#include <cstdlib>
 
 /**
  * Instantiates a new player.
@@ -12,10 +14,10 @@ ComputerPlayer::ComputerPlayer()
 
 int ComputerPlayer::GetColumn()
 {
-    return 97;
+    return 97 + (rand() % (int)(CONF_GAME_MINEFIELD_COLUMNS));
 }
 
 int ComputerPlayer::GetRow()
 {
-    return 1;
+    return 1 + (rand() % (int)(CONF_GAME_MINEFIELD_ROWS));
 }
