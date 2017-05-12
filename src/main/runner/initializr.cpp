@@ -9,7 +9,7 @@ MineszwiperAppInitializr::MineszwiperAppInitializr()
     if(Utilities::core_isDevEnvironment())
     {
         Logger::getInstance()->logDebug("Tests are enabled");
-        MineszwiperTestAppInitializr tests;
+        MineszwiperAppInitializr tests;
         Utilities::core_pauseScr();
     }
     Logger::getInstance()->logInfo("Initialization finished");

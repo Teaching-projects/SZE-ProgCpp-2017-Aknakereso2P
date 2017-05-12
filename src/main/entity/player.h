@@ -10,7 +10,7 @@
  */
 class Player
 {
-    private:
+    protected:
         std::string     nickName;
         int		        minePoints;
         bool	        hasTurn;
@@ -24,6 +24,9 @@ class Player
         void setMinePoints(int mp);
         bool isHasTurn(void);
         void setHasTurn(bool ht);
+
+        virtual int GetColumn();
+        virtual int GetRow();
 };
 
 #endif // PLAYER_H_INCLUDED

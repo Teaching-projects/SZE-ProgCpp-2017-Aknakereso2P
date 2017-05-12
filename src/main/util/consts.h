@@ -18,6 +18,7 @@
 #define CONST_FIELD_UNDERMINED              -1
 
 #define CONST_PLAYER_ANONYMOUS_NICKNAME     "player"
+#define CONST_COMPUTER_PLAYER_NICKNAME      "Computer player"
 
 #define CONST_LOGGER_LOG_LEVEL_ERROR        "ERROR"
 #define CONST_LOGGER_LOG_LEVEL_WARNING      "WARN "

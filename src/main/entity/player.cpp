@@ -1,4 +1,5 @@
 #include "player.h"
+#include "../util/utilities.h"
 
 /**
  * Instantiates a new player.
@@ -76,4 +77,26 @@ bool Player::isHasTurn(void)
 void Player::setHasTurn(bool ht)
 {
     hasTurn = ht;
+}
+
+int Player::GetColumn()
+{
+    Utilities::print("COLUMN: ");
+    char col;
+    std::cin >> col;
+    std::cin.clear();
+    std::cin.ignore(sizeof(char), '\n');
+
+    return col;
+}
+
+int Player::GetRow()
+{
+    Utilities::print("ROW: ");
+    int row;
+    std::cin >> row;
+    std::cin.clear();
+    std::cin.ignore(sizeof(int), '\n');
+
+    return row;
 }

@@ -210,11 +210,7 @@ void MineszwiperGame::startNewGame()
         // getting row
         do
         {
-            Utilities::print("ROW: ");
-            int row;
-            std::cin >> row;
-            std::cin.clear();
-            std::cin.ignore(sizeof(int), '\n');
+            int row = p1.isHasTurn() ? p1.GetRow() : p2.GetRow();
             x = correctRow(row);
         }
         while(!checkRow(x));
@@ -222,12 +218,8 @@ void MineszwiperGame::startNewGame()
         // getting column
         do
         {
-            Utilities::print("COLUMN: ");
-            char col;
-            std::cin >> col;
-            std::cin.clear();
-            std::cin.ignore(sizeof(char), '\n');
-            y = correctColumn(col);
+            int column = p1.isHasTurn() ? p1.GetColumn() : p2.GetColumn();
+            y = correctColumn(column);
         }
         while(!checkColumn(y));
 
