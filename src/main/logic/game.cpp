@@ -1,4 +1,5 @@
 #include "game.h"
+#include "../entity/ComputerPlayer.h"
 
 /**
  * Instantiates a new Mineszwiper game.
@@ -148,23 +149,34 @@ void MineszwiperGame::startNewGame()
         std::cin.ignore(sizeof(std::string), '\n');
     }
     while(!checkNickName(n1));
-    Player p1;
-    p1.setNickName(n1);
+
+    Player* p1;
+    p1 = n1 == "auto" ? new ComputerPlayer() : new Player();
+
+    if (n1 != "auto"){
+        p1->setNickName(n1);
+    }
+
     // player one starts the game
-    p1.setHasTurn(true);
+    p1->setHasTurn(true);
 
     // getting player two nickname
     std::string n2;
     do
     {
-        Utilities::print("Player two nickname: ");
+        Utilities::print("player two nickname: ");
         std::cin >> n2;
         std::cin.clear();
         std::cin.ignore(sizeof(std::string), '\n');
     }
     while(!checkNickName(n2));
-    Player p2;
-    p2.setNickName(n2);
+
+    Player* p2;
+    p2 = n2 == "auto" ? new ComputerPlayer() : new Player();
+
+    if (n2 != "auto"){
+        p2->setNickName(n2);
+    }
 
     Utilities::println();
     Utilities::println("Game starting");
@@ -183,25 +195,25 @@ void MineszwiperGame::startNewGame()
         Utilities::print("Turn: ");
         Utilities::println(Utilities::core_formatNumber(turn+1));
         Utilities::print("Next player: ");
-        if(p1.isHasTurn())
+        if(p1->isHasTurn())
         {
-            Utilities::println(p1.getNickName());
+            Utilities::println(p1->getNickName());
         }
         else
         {
-            Utilities::println(p2.getNickName());
+            Utilities::println(p2->getNickName());
         }
 
         // player 1 informations
-        Utilities::print(p1.getNickName());
+        Utilities::print(p1->getNickName());
         Utilities::print(": ");
-        Utilities::print(Utilities::core_formatNumber(p1.getMinePoints()));
+        Utilities::print(Utilities::core_formatNumber(p1->getMinePoints()));
         Utilities::println();
 
         // player 2 informations
-        Utilities::print(p2.getNickName());
+        Utilities::print(p2->getNickName());
         Utilities::print(": ");
-        Utilities::print(Utilities::core_formatNumber(p2.getMinePoints()));
+        Utilities::print(Utilities::core_formatNumber(p2->getMinePoints()));
         Utilities::println();
 
         // shows the minefield
@@ -210,7 +222,7 @@ void MineszwiperGame::startNewGame()
         // getting row
         do
         {
-            int row = p1.isHasTurn() ? p1.GetRow() : p2.GetRow();
+            int row = p1->isHasTurn() ? p1->GetRow() : p2->GetRow();
             x = correctRow(row);
         }
         while(!checkRow(x));
@@ -218,7 +230,7 @@ void MineszwiperGame::startNewGame()
         // getting column
         do
         {
-            int column = p1.isHasTurn() ? p1.GetColumn() : p2.GetColumn();
+            int column = p1->isHasTurn() ? p1->GetColumn() : p2->GetColumn();
             y = correctColumn(column);
         }
         while(!checkColumn(y));
@@ -232,32 +244,32 @@ void MineszwiperGame::startNewGame()
             if(mf.fieldIsUndermined(x, y))
             {
                 // count the turn owner mine points
-                if(p1.isHasTurn())
+                if(p1->isHasTurn())
                 {
                     // count player points
-                    p1.countMinePoints();
+                    p1->countMinePoints();
                 }
                 else
                 {
                     // count player points
-                    p2.countMinePoints();
+                    p2->countMinePoints();
                 }
 
             }
             // if it was not the next player will be the other player
-            else if(p1.isHasTurn())
+            else if(p1->isHasTurn())
             {
-                p1.setHasTurn(false);
-                p2.setHasTurn(true);
+                p1->setHasTurn(false);
+                p2->setHasTurn(true);
             }
             else
             {
-                p1.setHasTurn(true);
-                p2.setHasTurn(false);
+                p1->setHasTurn(true);
+                p2->setHasTurn(false);
             }
 
             // checks if the players reached the winning mine points count
-            if(p1.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
+            if(p1->getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
             {
                 setEndCurrentGame(true);
                 // player one is the winner - ends the game
@@ -265,11 +277,11 @@ void MineszwiperGame::startNewGame()
                 showTitle();
                 Utilities::println("Game ended!");
                 Utilities::print("The winner is: ");
-                Utilities::println(p1.getNickName());
+                Utilities::println(p1->getNickName());
                 mf.show();
                 Utilities::core_pauseScr();
             }
-            else if(p2.getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
+            else if(p2->getMinePoints()>=((int)(CONF_GAME_MINEFIELD_NUM_OF_MINES/2)+1))
             {
                 setEndCurrentGame(true);
                 // player two is the winner - ends the game
@@ -277,13 +289,16 @@ void MineszwiperGame::startNewGame()
                 showTitle();
                 Utilities::println("Game ended!");
                 Utilities::print("The winner is: ");
-                Utilities::println(p2.getNickName());
+                Utilities::println(p2->getNickName());
                 mf.show();
                 Utilities::core_pauseScr();
             }
             turn++;
         }
     }
+
+    delete p1;
+    delete p2;
 }
 
 /**
